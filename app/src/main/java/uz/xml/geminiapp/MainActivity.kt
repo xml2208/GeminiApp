@@ -1,6 +1,5 @@
-      npackage uz.xml.geminiapp
+package uz.xml.geminiapp
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -34,19 +33,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.content.FileProvider
 import coil.compose.AsyncImage
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.google.ai.client.generativeai.BuildConfig
 import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.Chat
-import com.google.ai.client.generativeai.type.Content
 import kotlinx.coroutines.launch
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 const val API_KEY = "AIzaSyA5tGSY2D7rBZySuVVpktou5j01_I4FoVM"
 
@@ -74,11 +65,11 @@ class MainActivity : ComponentActivity() {
                         isLoading = true
                         coroutine.launch {
                             try {
-                                val img = "https://images.dev.cluster.daymarket.uz/cr1k6o71gnr4dos9evbg/feedback_240_high.jpg"
+                                val rawImgUrl = "https://foodboxhq.com/wp-content/uploads/2023/02/friends-cooking-together-1.webp"
                                 val b = generativeModel.generateContent(prompt = "Describe this photo in detail $it")
-                                val ab = generativeModel.generateContent(prompt = "What is the subject of the photo  $img")
-                                Log.d("TAG", "onCreate: ${ab.text}")
-                                generatedText = ab.text.orEmpty()
+                                val generatedContentResponse = generativeModel.generateContent(prompt = "What is the subject of the photo  $rawImgUrl")
+                                Log.d("TAG", "onCreate: ${generatedContentResponse.text}")
+                                generatedText = generatedContentResponse.text.orEmpty()
                             } catch (e: Exception) {
                                 e.printStackTrace()
                             } finally {
