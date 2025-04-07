@@ -27,20 +27,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uz.xml.geminiapp.BuildConfig
 import uz.xml.geminiapp.R
+import uz.xml.geminiapp.ui.composable.TypingTextAnimation
 
 @Composable
 fun AnalyzeScreen(imageUri: Uri) {
     val context = LocalContext.current
-    var uiState by remember { mutableStateOf<AnalysisState>(AnalysisState.Loading) }
+    var uiState by remember { mutableStateOf<AnalysisState>(AnalysisState.Loading()) }
     var isUzbekLanguage by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = imageUri, key2 = isUzbekLanguage) {
@@ -84,7 +83,6 @@ fun AnalyzeScreen(imageUri: Uri) {
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
         Box(
             modifier = Modifier
@@ -92,9 +90,10 @@ fun AnalyzeScreen(imageUri: Uri) {
                 .padding(bottom = 8.dp)
         ) {
             UzbekLanguageToggle(
+                modifier = Modifier.align(Alignment.TopEnd),
                 isUzbekSelected = isUzbekLanguage,
                 onToggle = {
-                    uiState = AnalysisState.Loading
+                    uiState = AnalysisState.Loading()
                     isUzbekLanguage = it
                 }
             )
@@ -102,16 +101,15 @@ fun AnalyzeScreen(imageUri: Uri) {
 
         when (val state = uiState) {
             is AnalysisState.Loading -> {
-                CircularProgressIndicator(modifier = Modifier.padding(top = 32.dp))
+                TypingTextAnimation(fullText = state.loadingText)
+                CircularProgressIndicator(
+                    modifier = Modifier.padding(top = 32.dp),
+                    color = Color.Black
+                )
             }
 
             is AnalysisState.Success -> {
-                Text(
-                    modifier = Modifier.verticalScroll(rememberScrollState()),
-                    text = state.result,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp,
-                )
+                TypingTextAnimation(fullText = state.result)
             }
 
             is AnalysisState.Error -> {
@@ -152,7 +150,7 @@ fun UzbekLanguageToggle(
 }
 
 private sealed class AnalysisState {
-    data object Loading : AnalysisState()
+    data class Loading(val loadingText: String = "Loading data from Gemini...") : AnalysisState()
     data class Success(val result: String) : AnalysisState()
     data class Error(val message: String) : AnalysisState()
 }
