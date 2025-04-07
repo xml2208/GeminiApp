@@ -1,4 +1,4 @@
-package uz.xml.geminiapp.ui.composable
+package uz.xml.geminiapp.presentation.composable
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween

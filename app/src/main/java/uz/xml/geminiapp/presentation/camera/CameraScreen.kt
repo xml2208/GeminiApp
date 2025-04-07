@@ -1,4 +1,4 @@
-package uz.xml.geminiapp.ui.screens
+package uz.xml.geminiapp.presentation.camera
 
 import android.net.Uri
 import android.util.Log
