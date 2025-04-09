@@ -55,12 +55,16 @@ fun CameraScreen(
     Box(modifier = modifier.fillMaxSize()) {
         CameraPreview(
             imageCapture = imageCapture,
-            modifier = Modifier.fillMaxWidth().fillMaxSize(0.4f),
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxSize(0.4f),
         )
 
         Icon(
             imageVector = Icons.Default.ArrowBack,
-            modifier = Modifier.align(Alignment.TopStart).clickable { onBack() },
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .clickable { onBack() },
             contentDescription = null
         )
 
@@ -169,7 +173,7 @@ private fun CaptureButton(
 @Composable
 fun LanguageToggle(
     currentLanguage: AppLanguage,
-    onToggle:() -> Unit,
+    onToggle: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(

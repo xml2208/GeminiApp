@@ -1,11 +1,23 @@
 package uz.xml.geminiapp.presentation.analyze
 
 import android.net.Uri
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -18,14 +30,14 @@ import org.koin.androidx.compose.koinViewModel
 import uz.xml.geminiapp.R
 import uz.xml.geminiapp.domain.model.GeminiPrompt
 import uz.xml.geminiapp.presentation.camera.AppLanguage
-import uz.xml.geminiapp.presentation.camera.LanguageViewModel
 import uz.xml.geminiapp.presentation.camera.LanguageToggle
+import uz.xml.geminiapp.presentation.camera.LanguageViewModel
 
 @Composable
 fun AnalysisScreen(
-    languageViewModel: LanguageViewModel = koinViewModel(),
     photoUri: Uri,
-    navController: NavController
+    navController: NavController,
+    languageViewModel: LanguageViewModel = koinViewModel(),
 ) {
     val currentLanguage by languageViewModel.currentLanguage.collectAsState()
 
