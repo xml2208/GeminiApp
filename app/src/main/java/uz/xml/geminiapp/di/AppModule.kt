@@ -2,12 +2,13 @@ package uz.xml.geminiapp.di
 
 import com.google.ai.client.generativeai.GenerativeModel
 import org.koin.android.ext.koin.androidContext
-import uz.xml.geminiapp.presentation.analyze.AnalyzeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import uz.xml.geminiapp.BuildConfig
 import uz.xml.geminiapp.data.repository.GeminiRepositoryImpl
 import uz.xml.geminiapp.domain.repository.GeminiRepository
+import uz.xml.geminiapp.presentation.analysis.AnalyzeViewModel
+import uz.xml.geminiapp.presentation.camera.CameraViewModel
 import uz.xml.geminiapp.presentation.camera.LanguageViewModel
 
 val appModule = module {
@@ -29,5 +30,7 @@ val appModule = module {
     viewModel { AnalyzeViewModel(get<GeminiRepository>()) }
 
     viewModel { LanguageViewModel() }
+
+    viewModel { CameraViewModel() }
 
 }

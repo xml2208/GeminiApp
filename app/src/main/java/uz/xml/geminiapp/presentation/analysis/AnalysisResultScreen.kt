@@ -1,4 +1,4 @@
-package uz.xml.geminiapp.presentation.analyze
+package uz.xml.geminiapp.presentation.analysis
 
 import android.net.Uri
 import androidx.compose.foundation.layout.Column

@@ -6,7 +6,6 @@ import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import uz.xml.geminiapp.R
 import uz.xml.geminiapp.domain.model.GeminiPrompt
 import uz.xml.geminiapp.domain.repository.GeminiRepository
 import uz.xml.geminiapp.presentation.camera.AppLanguage
@@ -23,20 +22,7 @@ class GeminiRepositoryImpl(
     ): String {
         return withContext(Dispatchers.IO) {
             try {
-                val promptResId = when (promptType) {
-                    GeminiPrompt.CalorieEstimate -> if (language == AppLanguage.ENGLISH)
-                        R.string.prompt_calorie_estimate_en else R.string.prompt_calorie_estimate_uz
-
-                    GeminiPrompt.NutrientBreakdown -> if (language == AppLanguage.ENGLISH)
-                        R.string.prompt_nutrient_breakdown_en else R.string.prompt_nutrient_breakdown_uz
-
-                    GeminiPrompt.FoodCategorization -> if (language == AppLanguage.ENGLISH)
-                        R.string.prompt_food_categorization_en else R.string.prompt_food_categorization_uz
-
-                    GeminiPrompt.FoodSuggestion -> if (language == AppLanguage.ENGLISH)
-                        R.string.prompt_food_suggestion_en else R.string.prompt_food_suggestion_uz
-                }
-                val promptText = context.getString(promptResId)
+                val promptText = context.getString(promptType.textResId)
                 val inputContent = content {
                     image(bitmap)
                     text(promptText)
