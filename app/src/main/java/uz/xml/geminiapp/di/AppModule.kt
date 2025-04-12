@@ -6,10 +6,13 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import uz.xml.geminiapp.BuildConfig
 import uz.xml.geminiapp.data.repository.GeminiRepositoryImpl
+import uz.xml.geminiapp.data.repository.ProfileRepositoryImpl
 import uz.xml.geminiapp.domain.repository.GeminiRepository
+import uz.xml.geminiapp.domain.repository.ProfileRepository
 import uz.xml.geminiapp.presentation.analysis.AnalyzeViewModel
 import uz.xml.geminiapp.presentation.camera.CameraViewModel
-import uz.xml.geminiapp.presentation.camera.LanguageViewModel
+import uz.xml.geminiapp.presentation.language.LanguageViewModel
+import uz.xml.geminiapp.presentation.profile.ProfileScreenViewModel
 
 val appModule = module {
 
@@ -27,10 +30,14 @@ val appModule = module {
         )
     }
 
+    single<ProfileRepository> { ProfileRepositoryImpl(context = androidContext()) }
+
     viewModel { AnalyzeViewModel(get<GeminiRepository>()) }
 
     viewModel { LanguageViewModel() }
 
     viewModel { CameraViewModel() }
+
+    viewModel { ProfileScreenViewModel(profileRepository = get<ProfileRepository>()) }
 
 }

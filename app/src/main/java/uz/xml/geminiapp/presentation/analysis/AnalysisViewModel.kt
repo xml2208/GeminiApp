@@ -11,7 +11,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import uz.xml.geminiapp.domain.model.GeminiPrompt
 import uz.xml.geminiapp.domain.repository.GeminiRepository
-import uz.xml.geminiapp.presentation.camera.AppLanguage
+import uz.xml.geminiapp.presentation.language.AppLanguage
 
 class AnalyzeViewModel(
     private val repository: GeminiRepository,

@@ -1,4 +1,4 @@
-package uz.xml.geminiapp.presentation.camera
+package uz.xml.geminiapp.presentation.language
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

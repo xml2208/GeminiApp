@@ -23,8 +23,8 @@ import coil.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
 import uz.xml.geminiapp.R
 import uz.xml.geminiapp.domain.model.GeminiPrompt
-import uz.xml.geminiapp.presentation.camera.AppLanguage
 import uz.xml.geminiapp.presentation.composable.TypingTextAnimation
+import uz.xml.geminiapp.presentation.language.AppLanguage
 
 @Composable
 fun ResultScreen(
@@ -62,17 +62,10 @@ fun ResultScreen(
         )
 
         val titleResId = when (prompt) {
-            is GeminiPrompt.CalorieEstimate -> if (language == AppLanguage.ENGLISH)
-                R.string.calorie_estimate_title_en else R.string.calorie_estimate_title_uz
-
-            is GeminiPrompt.NutrientBreakdown -> if (language == AppLanguage.ENGLISH)
-                R.string.nutrient_breakdown_title_en else R.string.nutrient_breakdown_title_uz
-
-            is GeminiPrompt.FoodCategorization -> if (language == AppLanguage.ENGLISH)
-                R.string.food_categorization_title_en else R.string.food_categorization_title_uz
-
-            is GeminiPrompt.FoodSuggestion -> if (language == AppLanguage.ENGLISH)
-                R.string.food_suggestion_title_en else R.string.food_suggestion_title_uz
+            is GeminiPrompt.CalorieEstimate -> R.string.calorie_estimate_title
+            is GeminiPrompt.NutrientBreakdown -> R.string.nutrient_breakdown_title
+            is GeminiPrompt.FoodCategorization -> R.string.food_categorization_title
+            is GeminiPrompt.FoodSuggestion -> R.string.food_suggestion_title
         }
 
         Text(

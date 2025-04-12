@@ -5,14 +5,25 @@ import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -30,6 +42,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
+import uz.xml.geminiapp.R
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -45,18 +58,53 @@ fun MealScanScreen(navController: NavController) {
             }
         }
     )
-
-    WelcomeScreen(
-        onScanClick = {
-            if (cameraPermissionState.status.isGranted) {
-                navController.navigate("camera")
-            } else {
-                if (cameraPermissionState.status.shouldShowRationale) {
-                    showCameraNeededToast(context)
+    Scaffold(
+        bottomBar = {
+            MealScreenBottomBarContent(navController = navController)
+        }
+    ) { paddingValues ->
+        WelcomeScreen(
+            modifier = Modifier.padding(paddingValues),
+            onScanClick = {
+                if (cameraPermissionState.status.isGranted) {
+                    navController.navigate("camera")
+                } else {
+                    if (cameraPermissionState.status.shouldShowRationale) {
+                        showCameraNeededToast(context)
+                    }
+                    cameraPermissionState.launchPermissionRequest()
                 }
-                cameraPermissionState.launchPermissionRequest()
+            })
+    }
+}
+
+@Composable
+fun MealScreenBottomBarContent(
+    navController: NavController,
+) {
+    Column {
+        Divider()
+        BottomAppBar(
+            modifier = Modifier,
+            contentColor = Color.Black,
+            containerColor = Color.Transparent,
+        ) {
+            Divider(Modifier.width(2.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Absolute.SpaceEvenly
+            ) {
+                IconButton(
+                    onClick = { navController.navigate("welcome") },
+                    content = { Icon(Icons.Default.Home, null) }
+                )
+                IconButton(
+                    onClick = { navController.navigate("profile") },
+                    content = { Icon(Icons.Default.Person, null) }
+                )
             }
-        })
+        }
+    }
 }
 
 @Composable
@@ -78,7 +126,7 @@ private fun WelcomeScreen(
         )
 
         Text(
-            text = "AI powered\n\n Meal Calorie\n\n Analyzer",
+            text = stringResource(R.string.ai_powered_analyzer),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
             fontSize = 64.sp,
@@ -88,14 +136,14 @@ private fun WelcomeScreen(
         Spacer(Modifier.weight(1f))
 
         Text(
-            text = "Take a photo of your meal to analyze its contents and estimate calories",
+            text = stringResource(R.string.capturing_img_description),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(horizontal = 16.dp)
         )
 
         Text(
-            text = "Scan Meal",
+            text = stringResource(R.string.scan_meal),
             color = Color.White,
             textAlign = TextAlign.Center,
             modifier = Modifier
@@ -111,7 +159,7 @@ private fun WelcomeScreen(
 private fun showCameraNeededToast(context: Context) {
     Toast.makeText(
         context,
-        "Camera permission is required to scan meals",
+        context.getString(R.string.camera_permission_required),
         Toast.LENGTH_LONG
     ).show()
 }

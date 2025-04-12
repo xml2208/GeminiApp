@@ -8,7 +8,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uz.xml.geminiapp.domain.model.GeminiPrompt
 import uz.xml.geminiapp.domain.repository.GeminiRepository
-import uz.xml.geminiapp.presentation.camera.AppLanguage
+import uz.xml.geminiapp.presentation.language.AppLanguage
+import uz.xml.geminiapp.presentation.language.LanguageManager.getLocalizedContext
 
 class GeminiRepositoryImpl(
     private val generativeModel: GenerativeModel,
@@ -22,7 +23,8 @@ class GeminiRepositoryImpl(
     ): String {
         return withContext(Dispatchers.IO) {
             try {
-                val promptText = context.getString(promptType.textResId)
+                val localizedContext = context.getLocalizedContext(language)
+                val promptText = localizedContext.getString(promptType.textResId)
                 val inputContent = content {
                     image(bitmap)
                     text(promptText)

@@ -1,44 +1,25 @@
 <resources>
     <string name="app_name">GeminiApp</string>
-    <string name="what_to_analyze_en">What would you like to analyze?</string>
-    <string name="cancel_en">Cancel</string>
-    <string name="analyzing_food_en">Analyzing your food...</string>
-
-    <string name="what_to_analyze_uz">Nimani tahlil qilmoqchisiz?</string>
-    <string name="cancel_uz">Bekor qilish</string>
-    <string name="back_uz">Orqaga</string>
-    <string name="analyzing_food_uz">Ovqatingiz tahlil qilinmoqda...</string>
-
-    <string name="calorie_estimate_title_en">Calorie Estimate</string>
-    <string name="nutrient_breakdown_title_en">Nutrient Breakdown</string>
-    <string name="food_categorization_title_en">Food Categorization</string>
-    <string name="food_suggestion_title_en">Meal Suggestion</string>
-
-    <string name="calorie_estimate_title_uz">Kaloriyalar tahlili</string>
-    <string name="nutrient_breakdown_title_uz">Ozuqa moddalari tahlili</string>
-    <string name="food_categorization_title_uz">Ovqat toifasi</string>
-    <string name="food_suggestion_title_uz">Tavsiya etilgan taomlar</string>
-
-    <string name="prompt_calorie_estimate_button_en">Estimate Calories</string>
-    <string name="prompt_nutrient_breakdown_button_en">Nutrient Breakdown</string>
-    <string name="prompt_food_categorization_button_en">Categorize Food</string>
-    <string name="prompt_food_suggestion_button_en">Suggest Similar Meals</string>
-
-    <string name="prompt_calorie_estimate_button_uz">Kaloriyalarni hisoblash</string>
-    <string name="prompt_nutrient_breakdown_button_uz">Ozuqa moddalari tahlili</string>
-    <string name="prompt_food_categorization_button_uz">Ovqatni toifalash</string>
-    <string name="prompt_food_suggestion_button_uz">Shunga oʻxshash taomlarni taklif qilish</string>
-
-    <string name="continue_to_analysis">Continue to Analysis</string>
-    <string name="retake_photo">Retake Photo</string>
-
-    <string name="prompt_calorie_estimate_en">Analyze this food image and provide a calorie estimate for the entire meal. Break down the approximate calorie content for each visible item if possible.</string>
-    <string name="prompt_nutrient_breakdown_en">Analyze this food image and provide a detailed nutritional breakdown including approximate macronutrients (protein, carbs, fats) and key micronutrients.</string>
-    <string name="prompt_food_categorization_en">Analyze this food image and categorize it by cuisine type, meal type (breakfast/lunch/dinner/snack), and whether it\'s vegetarian, vegan, pescatarian, or contains meat.</string>
-    <string name="prompt_food_suggestion_en">Analyze this food image and suggest 3 similar meals that would provide alternative nutritional profiles (healthier options, different protein sources, etc).</string>
-
-    <string name="prompt_calorie_estimate_uz">Ushbu ovqat rasmini tahlil qiling va butun taom uchun kaloriya miqdorini aniqlang. Iloji bo\'lsa, har bir ko\'rinadigan mahsulot uchun taxminiy kaloriya miqdorini ko\'rsating.</string>
-    <string name="prompt_nutrient_breakdown_uz">Ushbu ovqat rasmini tahlil qiling va taxminiy makronutrientlar (oqsil, uglevodlar, yogʻlar) va asosiy mikronutrientlarni qoʻshgan holda batafsil ozuqaviy tarkibni taqdim eting.</string>
-    <string name="prompt_food_categorization_uz">Ushbu ovqat rasmini tahlil qiling va uni oshxona turi, taom turi (nonushta/tushlik/kechki ovqat/gazak) bo\'yicha toifalang va u vegetarian, vegan, pescatarian yoki go\'sht tarkibida mavjudligini aniqlang.</string>
-    <string name="prompt_food_suggestion_uz">Ushbu ovqat rasmini tahlil qiling va muqobil ozuqaviy profillarni (sog\'lomroq variantlar, turli xil oqsil manbalari va boshqalar) taqdim etadigan 3 ta o\'xshash taomni taklif qiling.</string>
+    <string name="what_to_analyze">What would you like to analyze?</string>
+    <string name="cancel">Cancel</string>
+    <string name="analyzing_food">Analyzing your food...</string>
+    <string name="calorie_estimate_title">Calorie Estimate</string>
+    <string name="nutrient_breakdown_title">Nutrient Breakdown</string>
+    <string name="food_categorization_title">.Food Categorization</string>
+    <string name="food_suggestion_title">Meal Suggestion</string>
+    <string name="prompt_calorie_estimate_button">Estimate Calories</string>
+    <string name="prompt_nutrient_breakdown_button">Nutrient Breakdown</string>
+    <string name="prompt_food_categorization_button">Categorize Food</string>
+    <string name="prompt_food_suggestion_button">Suggest Similar Meals</string>
+    <string name="prompt_calorie_estimate">Analyze this food image and provide a calorie estimate for the entire meal. Break down the approximate calorie content for each visible item if possible.</string>
+    <string name="prompt_nutrient_breakdown">Analyze this food image and provide a detailed nutritional breakdown including approximate macronutrients (protein, carbs, fats) and key micronutrients.</string>
+    <string name="prompt_food_categorization">Analyze this food image and categorize it by cuisine type, meal type (breakfast/lunch/dinner/snack), and whether it\'s vegetarian, vegan, pescatarian, or contains meat.</string>
+    <string name="prompt_food_suggestion">Analyze this food image and suggest 3 similar meals that would provide alternative nutritional profiles (healthier options, different protein sources, etc).</string>
+    <string name="back">Back</string>
+    <string name="profile_title">Profile\n</string>
+    <string name="ai_powered_analyzer">AI powered\n\n Meal Calorie\n\n Analyzer</string>
+    <string name="capturing_img_description">Take a photo of your meal to analyze its contents and estimate calories</string>
+    <string name="camera_permission_required">Camera permission is required to scan meals</string>
+    <string name="scan_meal">Scan Meal</string>
+    <string name="choose_language">Choose Language</string>
 </resources>

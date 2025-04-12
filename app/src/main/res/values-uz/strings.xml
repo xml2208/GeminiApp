@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GeminiApp</string>
+    <string name="calorie_estimate_title">Kaloriyalar tahlili</string>
+    <string name="nutrient_breakdown_title">Ozuqa moddalari tahlili</string>
+    <string name="food_categorization_title">Ovqat toifasi</string>
+    <string name="food_suggestion_title">Tavsiya etilgan taomlar</string>
+    <string name="what_to_analyze">Nimani tahlil qilmoqchisiz?</string>
+    <string name="cancel">Bekor qilish</string>
+    <string name="back">Orqaga</string>
+    <string name="analyzing_food">Ovqatingiz tahlil qilinmoqda...</string>
+    <string name="prompt_calorie_estimate_button">Kaloriyalarni hisoblash</string>
+    <string name="prompt_nutrient_breakdown_button">Ozuqa moddalari tahlili</string>
+    <string name="prompt_food_categorization_button">Ovqatni toifalash</string>
+    <string name="prompt_food_suggestion_button">Shunga oʻxshash taomlarni taklif qilish</string>
+    <string name="prompt_calorie_estimate">Ushbu ovqat rasmini tahlil qiling va butun taom uchun kaloriya miqdorini aniqlang. Iloji bo\'lsa, har bir ko\'rinadigan mahsulot uchun taxminiy kaloriya miqdorini ko\'rsating.</string>
+    <string name="prompt_nutrient_breakdown">Ushbu ovqat rasmini tahlil qiling va taxminiy makronutrientlar (oqsil, uglevodlar, yogʻlar) va asosiy mikronutrientlarni qoʻshgan holda batafsil ozuqaviy tarkibni taqdim eting.</string>
+    <string name="prompt_food_categorization">Ushbu ovqat rasmini tahlil qiling va uni oshxona turi, taom turi (nonushta/tushlik/kechki ovqat/gazak) bo\'yicha toifalang va u vegetarian, vegan, pescatarian yoki go\'sht tarkibida mavjudligini aniqlang.</string>
+    <string name="prompt_food_suggestion">Ushbu ovqat rasmini tahlil qiling va muqobil ozuqaviy profillarni (sog\'lomroq variantlar, turli xil oqsil manbalari va boshqalar) taqdim etadigan 3 ta o\'xshash taomni taklif qiling.</string>
+    <string name="profile_title">Profil</string>
+    <string name="ai_powered_analyzer">Sun\'iy intellekt \nasosida taomlarning \nkaloriya analizatori</string>
+    <string name="capturing_img_description">Taomingizning fotosuratini oling, uning tarkibini tahlil qilish va kaloriya miqdorini baholash uchun.</string>
+    <string name="camera_permission_required">Taomlarni skanerlash uchun kameraga ruxsat kerak.</string>
+    <string name="scan_meal">Taomni skanerlash</string>
+    <string name="choose_language">Выберите язык</string>
+</resources>

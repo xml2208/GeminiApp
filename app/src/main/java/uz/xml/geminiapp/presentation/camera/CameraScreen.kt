@@ -51,6 +51,8 @@ import coil.compose.AsyncImage
 import org.koin.androidx.compose.koinViewModel
 import uz.xml.geminiapp.R
 import uz.xml.geminiapp.domain.model.GeminiPrompt
+import uz.xml.geminiapp.presentation.language.AppLanguage
+import uz.xml.geminiapp.presentation.profile.ProfileScreenViewModel
 import java.io.File
 import java.util.concurrent.Executor
 
@@ -58,8 +60,10 @@ import java.util.concurrent.Executor
 fun CameraScreen(
     navController: NavController,
     viewModel: CameraViewModel = koinViewModel(),
+    profileScreenViewModel: ProfileScreenViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val selectedLanguage by profileScreenViewModel.selectedLanguage.collectAsState(AppLanguage.ENGLISH)
 
     CameraScreenContent(
         capturedPhotoUri = uiState.capturedPhotoUri,
@@ -68,7 +72,7 @@ fun CameraScreen(
         onNavigateBack = { navController.navigateUp() },
         onNavigateToResult = { uri, prompt ->
             val encodedUri = Uri.encode(uri.toString())
-            navController.navigate("result_screen/$encodedUri/$prompt")
+            navController.navigate("result_screen/$encodedUri/$prompt/$selectedLanguage")
         }
     )
 }
@@ -276,7 +280,7 @@ private fun GeminiPromptsContent(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = stringResource(R.string.what_to_analyze_en),
+            text = stringResource(R.string.what_to_analyze),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
         )
@@ -303,10 +307,10 @@ private fun GeminiPromptButton(
     onClick: () -> Unit,
 ) {
     val buttonTextResId = when (prompt) {
-        is GeminiPrompt.CalorieEstimate -> R.string.prompt_calorie_estimate_button_en
-        is GeminiPrompt.NutrientBreakdown -> R.string.prompt_nutrient_breakdown_button_en
-        is GeminiPrompt.FoodCategorization -> R.string.prompt_food_categorization_button_en
-        is GeminiPrompt.FoodSuggestion -> R.string.prompt_food_suggestion_button_en
+        is GeminiPrompt.CalorieEstimate -> R.string.prompt_calorie_estimate_button
+        is GeminiPrompt.NutrientBreakdown -> R.string.prompt_nutrient_breakdown_button
+        is GeminiPrompt.FoodCategorization -> R.string.prompt_food_categorization_button
+        is GeminiPrompt.FoodSuggestion -> R.string.prompt_food_suggestion_button
     }
 
     val backgroundColor = if (enabled) Color.Black else Color.Gray
