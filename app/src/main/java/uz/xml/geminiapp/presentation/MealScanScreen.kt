@@ -119,7 +119,8 @@ private fun WelcomeScreen(
         AsyncImage(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.5f),
+                .fillMaxHeight(0.5f)
+                .padding(bottom = 6.dp),
             model = "https://www.watersedgechc.com/wp-content/uploads/2024/04/The-Difference-Between-a-Nutritionist-and-a-Registered-Dietitian.jpg",
             contentScale = ContentScale.Crop,
             contentDescription = null
@@ -127,9 +128,8 @@ private fun WelcomeScreen(
 
         Text(
             text = stringResource(R.string.ai_powered_analyzer),
-            style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold,
-            fontSize = 64.sp,
+            fontSize = 54.sp,
             textAlign = TextAlign.Center
         )
 

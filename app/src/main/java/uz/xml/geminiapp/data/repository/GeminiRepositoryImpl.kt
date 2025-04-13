@@ -40,4 +40,35 @@ class GeminiRepositoryImpl(
             }
         }
     }
+
+    override suspend fun estimateDailyCalories(
+        gender: String,
+        age: Int,
+        heightCm: Int,
+        weightKg: Int,
+        activityLevel: String,
+        goal: String,
+    ): String {
+        return withContext(Dispatchers.IO) {
+            try {
+                val prompt = """
+                Calculate the estimated daily calorie intake for a person with the following details:
+                - Gender: $gender
+                - Age: $age
+                - Height: $heightCm cm
+                - Weight: $weightKg kg
+                - Activity level: $activityLevel
+                - Goal: $goal (maintain, lose, or gain weight)
+                
+                Provide the calorie amount in kcal per day and a short explanation.
+            """.trimIndent()
+
+                val input = content { text(prompt) }
+                val response = generativeModel.generateContent(input)
+                response.text ?: "No response"
+            } catch (e: Exception) {
+                throw Exception("Failed to estimate calories: ${e.message}")
+            }
+        }
+    }
 }

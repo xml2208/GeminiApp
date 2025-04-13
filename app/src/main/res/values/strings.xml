@@ -16,10 +16,32 @@
     <string name="prompt_food_categorization">Analyze this food image and categorize it by cuisine type, meal type (breakfast/lunch/dinner/snack), and whether it\'s vegetarian, vegan, pescatarian, or contains meat.</string>
     <string name="prompt_food_suggestion">Analyze this food image and suggest 3 similar meals that would provide alternative nutritional profiles (healthier options, different protein sources, etc).</string>
     <string name="back">Back</string>
-    <string name="profile_title">Profile\n</string>
-    <string name="ai_powered_analyzer">AI powered\n\n Meal Calorie\n\n Analyzer</string>
+    <string name="profile_title">Profile</string>
+    <string name="ai_powered_analyzer">AI powered \nMeal Calorie Analyzer</string>
     <string name="capturing_img_description">Take a photo of your meal to analyze its contents and estimate calories</string>
     <string name="camera_permission_required">Camera permission is required to scan meals</string>
     <string name="scan_meal">Scan Meal</string>
     <string name="choose_language">Choose Language</string>
+    <string name="language">Language</string>
+
+    <string name="user_calorie">Calorie Calculator</string>
+    <string name="gender_label">Gender</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_male">Male</string>
+    <string name="age_label">Age</string>
+    <string name="height_label">Height (cm)</string>
+    <string name="weight_label">Weight (kg)</string>
+    <string name="activity_label">Activity Level</string>
+    <string name="activity_sedentary">Sedentary</string>
+    <string name="activity_light">Lightly active</string>
+    <string name="activity_moderate">Moderately active</string>
+    <string name="activity_very">Very active</string>
+    <string name="activity_super">Super active</string>
+    <string name="goal_label">Goal</string>
+    <string name="goal_maintain">Maintain weight</string>
+    <string name="goal_lose">Lose weight</string>
+    <string name="goal_gain">Gain weight</string>
+    <string name="calculate_button">Calculate</string>
+    <string name="result_title">Your Calorie Estimation</string>
+
 </resources>

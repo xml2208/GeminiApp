@@ -28,6 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import uz.xml.geminiapp.R
 import uz.xml.geminiapp.presentation.language.AppLanguage
@@ -35,10 +36,12 @@ import uz.xml.geminiapp.presentation.language.LanguageManager
 
 @Composable
 fun ProfileScreen(
+    navController: NavController,
     profileScreenViewModel: ProfileScreenViewModel = koinViewModel(),
 ) {
     var showLanguageDialog by remember { mutableStateOf(false) }
     val selectedLanguage = profileScreenViewModel.selectedLanguage.collectAsState(AppLanguage.ENGLISH).value
+
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
@@ -53,15 +56,39 @@ fun ProfileScreen(
                 .clickable { showLanguageDialog = true }
                 .padding(vertical = 16.dp)
         ) {
-            Icon(Icons.Default.Build, contentDescription = null)
+            Icon(
+                Icons.Default.Build,
+                contentDescription = null
+            )
             Text(
-                text = "Language",
+                text = stringResource(R.string.language),
                 modifier = Modifier.weight(1f)
             )
-            Icon(Icons.Default.KeyboardArrowRight, contentDescription = null)
+            Icon(
+                Icons.Default.KeyboardArrowRight,
+                contentDescription = null
+            )
         }
         Divider()
-
+        Row(
+            modifier = Modifier
+                .clickable { navController.navigate("user_daily_calorie") }
+                .padding(vertical = 16.dp),
+        ) {
+            Icon(
+                imageVector = Icons.Default.Build,
+                contentDescription = null
+            )
+            Text(
+                text = stringResource(R.string.user_calorie),
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowRight,
+                contentDescription = null
+            )
+        }
+        Divider()
         if (showLanguageDialog) {
             LanguagePickerDialog(
                 selectedLanguage = selectedLanguage,

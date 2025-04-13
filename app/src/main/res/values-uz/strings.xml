@@ -22,5 +22,26 @@
     <string name="capturing_img_description">Taomingizning fotosuratini oling, uning tarkibini tahlil qilish va kaloriya miqdorini baholash uchun.</string>
     <string name="camera_permission_required">Taomlarni skanerlash uchun kameraga ruxsat kerak.</string>
     <string name="scan_meal">Taomni skanerlash</string>
-    <string name="choose_language">Выберите язык</string>
+    <string name="choose_language">Tilni tanlang</string>
+    <string name="language">Til</string>
+
+    <string name="user_calorie">Kaloriya kalkulyatori</string>
+    <string name="gender_label">Jins</string>
+    <string name="gender_female">Ayol</string>
+    <string name="gender_male">Erkak</string>
+    <string name="age_label">Yosh</string>
+    <string name="height_label">Bo\'y (sm)</string>
+    <string name="weight_label">Vazn (kg)</string>
+    <string name="activity_label">Faollik darajasi</string>
+    <string name="activity_sedentary">Kam harakatli</string>
+    <string name="activity_light">Biroz faol</string>
+    <string name="activity_moderate">O\'rtacha faol</string>
+    <string name="activity_very">Juda faol</string>
+    <string name="activity_super">O\'ta faol</string>
+    <string name="goal_label">Maqsad</string>
+    <string name="goal_maintain">Vaznni saqlash</string>
+    <string name="goal_lose">Vaznni kamaytirish</string>
+    <string name="goal_gain">Vaznni ko\'paytirish</string>
+    <string name="calculate_button">Hisoblash</string>
+    <string name="result_title">Sizning kaloriya hisobingiz</string>
 </resources>

@@ -10,4 +10,13 @@ interface GeminiRepository {
         promptType: GeminiPrompt,
         language: AppLanguage,
     ): String
+
+    suspend fun estimateDailyCalories(
+        gender: String,
+        age: Int,
+        heightCm: Int,
+        weightKg: Int,
+        activityLevel: String,
+        goal: String,
+    ): String
 }

@@ -11,6 +11,7 @@ import uz.xml.geminiapp.domain.model.GeminiPrompt
 import uz.xml.geminiapp.presentation.MealScanScreen
 import uz.xml.geminiapp.presentation.analysis.ResultScreen
 import uz.xml.geminiapp.presentation.camera.CameraScreen
+import uz.xml.geminiapp.presentation.daily_calorie.DailyCaloriesEstimationScreen
 import uz.xml.geminiapp.presentation.language.AppLanguage
 import uz.xml.geminiapp.presentation.profile.ProfileScreen
 
@@ -53,6 +54,8 @@ fun CalorieApp() {
             )
         }
 
-        composable(route = "profile") { ProfileScreen() }
+        composable(route = "profile") { ProfileScreen(navController) }
+
+        composable(route = "user_daily_calorie") { DailyCaloriesEstimationScreen() }
     }
 }

@@ -18,9 +18,30 @@
     <string name="prompt_food_suggestion">Проанализируйте это изображение еды и предложите 3 похожих блюда, которые предоставят альтернативные питательные профили (более здоровые варианты, различные источники белка и т.д.).</string>
     <string name="back">Назад</string>
     <string name="profile_title">Профиль</string>
-    <string name="ai_powered_analyzer"> Анализатор калорийности \nблюд на основе \n\nискусственного интеллекта</string>
+    <string name="ai_powered_analyzer">Искусственный интеллект для подсчёта калорий</string>
     <string name="capturing_img_description">Сделайте фото вашего блюда, чтобы проанализировать его состав и оценить калории.</string>
     <string name="camera_permission_required">Для сканирования блюд требуется разрешение на использование камеры.</string>
     <string name="scan_meal">Сканировать блюдо</string>
     <string name="choose_language">Выберите язык</string>
+    <string name="language">Язык</string>
+
+    <string name="user_calorie">Калькулятор калорий</string>
+    <string name="gender_label">Пол</string>
+    <string name="gender_female">Женский</string>
+    <string name="gender_male">Мужской</string>
+    <string name="age_label">Возраст</string>
+    <string name="height_label">Рост (см)</string>
+    <string name="weight_label">Вес (кг)</string>
+    <string name="activity_label">Уровень активности</string>
+    <string name="activity_sedentary">Малоподвижный</string>
+    <string name="activity_light">Легкая активность</string>
+    <string name="activity_moderate">Умеренная активность</string>
+    <string name="activity_very">Высокая активность</string>
+    <string name="activity_super">Очень высокая активность</string>
+    <string name="goal_label">Цель</string>
+    <string name="goal_maintain">Поддержание веса</string>
+    <string name="goal_lose">Снижение веса</string>
+    <string name="goal_gain">Набор веса</string>
+    <string name="calculate_button">Рассчитать</string>
+    <string name="result_title">Ваш расчет калорий</string>
 </resources>

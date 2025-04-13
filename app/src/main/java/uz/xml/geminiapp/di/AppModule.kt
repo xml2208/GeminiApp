@@ -13,6 +13,7 @@ import uz.xml.geminiapp.presentation.analysis.AnalyzeViewModel
 import uz.xml.geminiapp.presentation.camera.CameraViewModel
 import uz.xml.geminiapp.presentation.language.LanguageViewModel
 import uz.xml.geminiapp.presentation.profile.ProfileScreenViewModel
+import uz.xml.geminiapp.presentation.daily_calorie.DailyCaloriesViewModel
 
 val appModule = module {
 
@@ -39,5 +40,7 @@ val appModule = module {
     viewModel { CameraViewModel() }
 
     viewModel { ProfileScreenViewModel(profileRepository = get<ProfileRepository>()) }
+
+    viewModel { DailyCaloriesViewModel(geminiRepository = get<GeminiRepository>()) }
 
 }
