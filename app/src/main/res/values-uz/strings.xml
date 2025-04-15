@@ -44,4 +44,9 @@
     <string name="goal_gain">Vaznni ko\'paytirish</string>
     <string name="calculate_button">Hisoblash</string>
     <string name="result_title">Sizning kaloriya hisobingiz</string>
+    <string name="analysis_error_text">Tahlil natijasi mavjud emas</string>
+    <string name="failure_estimation">Kaloriyalarni hisoblashda xatolik yuz berdi: %1$s</string>
+    <string name="calorie_prompt_intro">Quyidagi ma\'lumotlar bilan bir kishi uchun hisoblangan kunlik kaloriya miqdorini hisoblang:</string>
+    <string name="calorie_goal_desc">(vaznni saqlash, yo\'qotish yoki kamaytirish)</string>
+    <string name="calorie_prompt_conclusion">Kuniga kkal da kaloriya miqdori va qisqacha tushuntirish ber.</string>
 </resources>

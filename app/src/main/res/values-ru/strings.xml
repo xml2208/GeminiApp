@@ -44,4 +44,9 @@
     <string name="goal_gain">Набор веса</string>
     <string name="calculate_button">Рассчитать</string>
     <string name="result_title">Ваш расчет калорий</string>
+    <string name="analysis_error_text">Результат анализа недоступен</string>
+    <string name="failure_estimation">Не удалось оценить калории: %1$s</string>
+    <string name="calorie_prompt_intro">Рассчитайте предполагаемое суточное потребление калорий для человека, используя следующие данные:</string>
+    <string name="calorie_goal_desc">(поддерживать, терять или набирать вес)</string>
+    <string name="calorie_prompt_conclusion">Укажите количество калорий в ккал в день и краткое пояснение.</string>
 </resources>

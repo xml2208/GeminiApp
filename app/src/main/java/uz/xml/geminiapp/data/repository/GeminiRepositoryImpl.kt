@@ -6,6 +6,7 @@ import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import uz.xml.geminiapp.R
 import uz.xml.geminiapp.domain.model.GeminiPrompt
 import uz.xml.geminiapp.domain.repository.GeminiRepository
 import uz.xml.geminiapp.presentation.language.AppLanguage
@@ -30,11 +31,8 @@ class GeminiRepositoryImpl(
                     text(promptText)
                 }
                 val response = generativeModel.generateContent(inputContent)
-                response.text ?: if (language == AppLanguage.ENGLISH) {
-                    "No analysis result available"
-                } else {
-                    "Tahlil natijasi mavjud emas"
-                }
+                response.text ?: context.getString(R.string.analysis_error_text)
+
             } catch (e: Exception) {
                 throw Exception("Failed to analyze image: ${e.message}")
             }
@@ -48,26 +46,28 @@ class GeminiRepositoryImpl(
         weightKg: Int,
         activityLevel: String,
         goal: String,
+        language: AppLanguage,
     ): String {
+        val localizedContext = context.getLocalizedContext(language)
+
+        val prompt = """${localizedContext.getString(R.string.calorie_prompt_intro)}
+                - ${localizedContext.getString(R.string.gender_label)}: $gender
+                - ${localizedContext.getString(R.string.age_label)}: $age
+                - ${localizedContext.getString(R.string.height_label)}: $heightCm cm
+                - ${localizedContext.getString(R.string.weight_label)}: $weightKg kg
+                - ${localizedContext.getString(R.string.activity_label)}: $activityLevel
+                - ${localizedContext.getString(R.string.goal_label)}: $goal ${
+            localizedContext.getString(R.string.calorie_goal_desc)
+        }  ${localizedContext.getString(R.string.calorie_prompt_conclusion)}
+           """.trimIndent()
+
         return withContext(Dispatchers.IO) {
             try {
-                val prompt = """
-                Calculate the estimated daily calorie intake for a person with the following details:
-                - Gender: $gender
-                - Age: $age
-                - Height: $heightCm cm
-                - Weight: $weightKg kg
-                - Activity level: $activityLevel
-                - Goal: $goal (maintain, lose, or gain weight)
-                
-                Provide the calorie amount in kcal per day and a short explanation.
-            """.trimIndent()
-
                 val input = content { text(prompt) }
                 val response = generativeModel.generateContent(input)
                 response.text ?: "No response"
             } catch (e: Exception) {
-                throw Exception("Failed to estimate calories: ${e.message}")
+                throw Exception(context.getString(R.string.failure_estimation, e.message))
             }
         }
     }

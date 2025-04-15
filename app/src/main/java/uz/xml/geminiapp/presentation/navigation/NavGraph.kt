@@ -13,40 +13,36 @@ import uz.xml.geminiapp.presentation.analysis.ResultScreen
 import uz.xml.geminiapp.presentation.camera.CameraScreen
 import uz.xml.geminiapp.presentation.daily_calorie.DailyCaloriesEstimationScreen
 import uz.xml.geminiapp.presentation.language.AppLanguage
-import uz.xml.geminiapp.presentation.profile.ProfileScreen
+import uz.xml.geminiapp.presentation.profile.SettingsScreen
 
 @Composable
 fun CalorieApp() {
     val navController = rememberNavController()
-    NavHost(navController, startDestination = "welcome") {
-        composable("welcome") {
+    NavHost(navController, startDestination = NavRoutes.WELCOME) {
+        composable(NavRoutes.WELCOME) {
             MealScanScreen(navController)
         }
-        composable("camera") {
+
+        composable(NavRoutes.CAMERA) {
             CameraScreen(navController = navController)
         }
+
         composable(
-            route = "result_screen/{imageUri}/{promptType}/{language}",
+            route = NavRoutes.ResultScreen.route,
             arguments = listOf(
-                navArgument("imageUri") { type = NavType.StringType },
-                navArgument("promptType") { type = NavType.StringType },
-                navArgument("language") { type = NavType.StringType }
+                navArgument(NavRoutes.ResultScreen.IMAGE_URI) { type = NavType.StringType },
+                navArgument(NavRoutes.ResultScreen.PROMPT_TYPE) { type = NavType.StringType },
+                navArgument(NavRoutes.ResultScreen.LANGUAGE) { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val photoUriString =
-                backStackEntry.arguments?.getString("imageUri") ?: return@composable
+                backStackEntry.arguments?.getString(NavRoutes.ResultScreen.IMAGE_URI) ?: return@composable
             val promptTypeString =
-                backStackEntry.arguments?.getString("promptType") ?: return@composable
+                backStackEntry.arguments?.getString(NavRoutes.ResultScreen.PROMPT_TYPE).orEmpty()
             val languageString =
-                backStackEntry.arguments?.getString("language") ?: return@composable
+                backStackEntry.arguments?.getString(NavRoutes.ResultScreen.LANGUAGE) ?: return@composable
+            val promptType = GeminiPrompt.fromString(promptTypeString)
 
-            val promptType = when (promptTypeString) {
-                "CalorieEstimate" -> GeminiPrompt.CalorieEstimate
-                "NutrientBreakdown" -> GeminiPrompt.NutrientBreakdown
-                "FoodCategorization" -> GeminiPrompt.FoodCategorization
-                "FoodSuggestion" -> GeminiPrompt.FoodSuggestion
-                else -> GeminiPrompt.CalorieEstimate
-            }
             ResultScreen(
                 imageUri = photoUriString.toUri(),
                 prompt = promptType,
@@ -54,8 +50,12 @@ fun CalorieApp() {
             )
         }
 
-        composable(route = "profile") { ProfileScreen(navController) }
+        composable(route = NavRoutes.SETTINGS) {
+            SettingsScreen(navController)
+        }
 
-        composable(route = "user_daily_calorie") { DailyCaloriesEstimationScreen() }
+        composable(route = NavRoutes.USER_DAILY_CALORIE) {
+            DailyCaloriesEstimationScreen()
+        }
     }
 }

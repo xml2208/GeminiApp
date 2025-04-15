@@ -17,7 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -43,6 +43,7 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import uz.xml.geminiapp.R
+import uz.xml.geminiapp.presentation.navigation.NavRoutes
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -52,7 +53,7 @@ fun MealScanScreen(navController: NavController) {
         permission = Manifest.permission.CAMERA,
         onPermissionResult = { isGranted ->
             if (isGranted) {
-                navController.navigate("camera")
+                navController.navigate(NavRoutes.CAMERA)
             } else {
                 showCameraNeededToast(context)
             }
@@ -67,7 +68,7 @@ fun MealScanScreen(navController: NavController) {
             modifier = Modifier.padding(paddingValues),
             onScanClick = {
                 if (cameraPermissionState.status.isGranted) {
-                    navController.navigate("camera")
+                    navController.navigate(NavRoutes.CAMERA)
                 } else {
                     if (cameraPermissionState.status.shouldShowRationale) {
                         showCameraNeededToast(context)
@@ -95,12 +96,12 @@ fun MealScreenBottomBarContent(
                 horizontalArrangement = Arrangement.Absolute.SpaceEvenly
             ) {
                 IconButton(
-                    onClick = { navController.navigate("welcome") },
+                    onClick = { navController.navigate(NavRoutes.WELCOME) },
                     content = { Icon(Icons.Default.Home, null) }
                 )
                 IconButton(
-                    onClick = { navController.navigate("profile") },
-                    content = { Icon(Icons.Default.Person, null) }
+                    onClick = { navController.navigate(NavRoutes.SETTINGS) },
+                    content = { Icon(Icons.Default.Settings, null) }
                 )
             }
         }

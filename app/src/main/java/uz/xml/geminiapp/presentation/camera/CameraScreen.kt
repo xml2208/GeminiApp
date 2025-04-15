@@ -52,7 +52,7 @@ import org.koin.androidx.compose.koinViewModel
 import uz.xml.geminiapp.R
 import uz.xml.geminiapp.domain.model.GeminiPrompt
 import uz.xml.geminiapp.presentation.language.AppLanguage
-import uz.xml.geminiapp.presentation.profile.ProfileScreenViewModel
+import uz.xml.geminiapp.presentation.navigation.NavRoutes
 import java.io.File
 import java.util.concurrent.Executor
 
@@ -60,10 +60,9 @@ import java.util.concurrent.Executor
 fun CameraScreen(
     navController: NavController,
     viewModel: CameraViewModel = koinViewModel(),
-    profileScreenViewModel: ProfileScreenViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val selectedLanguage by profileScreenViewModel.selectedLanguage.collectAsState(AppLanguage.ENGLISH)
+    val selectedLanguage by viewModel.currentLanguage.collectAsState(AppLanguage.ENGLISH)
 
     CameraScreenContent(
         capturedPhotoUri = uiState.capturedPhotoUri,
@@ -72,7 +71,8 @@ fun CameraScreen(
         onNavigateBack = { navController.navigateUp() },
         onNavigateToResult = { uri, prompt ->
             val encodedUri = Uri.encode(uri.toString())
-            navController.navigate("result_screen/$encodedUri/$prompt/$selectedLanguage")
+            val promptString = GeminiPrompt.toString(prompt)
+            navController.navigate(NavRoutes.ResultScreen.createRoute(encodedUri, promptString, selectedLanguage))
         }
     )
 }
@@ -83,7 +83,7 @@ fun CameraScreenContent(
     hasValidPhoto: Boolean,
     onPhotoCapture: (Uri) -> Unit,
     onNavigateBack: () -> Unit,
-    onNavigateToResult: (Uri, String) -> Unit,
+    onNavigateToResult: (Uri, GeminiPrompt) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -132,7 +132,7 @@ fun CameraScreenContent(
             hasValidPhoto = hasValidPhoto,
             onPromptSelected = { prompt ->
                 capturedPhotoUri?.let { uri ->
-                    onNavigateToResult(uri, prompt.javaClass.simpleName)
+                    onNavigateToResult(uri, prompt)
                 }
             },
             modifier = Modifier

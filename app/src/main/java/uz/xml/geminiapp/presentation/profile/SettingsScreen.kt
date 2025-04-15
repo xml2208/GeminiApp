@@ -33,14 +33,15 @@ import org.koin.androidx.compose.koinViewModel
 import uz.xml.geminiapp.R
 import uz.xml.geminiapp.presentation.language.AppLanguage
 import uz.xml.geminiapp.presentation.language.LanguageManager
+import uz.xml.geminiapp.presentation.navigation.NavRoutes
 
 @Composable
-fun ProfileScreen(
+fun SettingsScreen(
     navController: NavController,
-    profileScreenViewModel: ProfileScreenViewModel = koinViewModel(),
+    settingsScreenViewModel: SettingsScreenViewModel = koinViewModel(),
 ) {
     var showLanguageDialog by remember { mutableStateOf(false) }
-    val selectedLanguage = profileScreenViewModel.selectedLanguage.collectAsState(AppLanguage.ENGLISH).value
+    val selectedLanguage = settingsScreenViewModel.selectedLanguage.collectAsState(AppLanguage.ENGLISH).value
 
     Column(
         modifier = Modifier.padding(16.dp)
@@ -72,7 +73,7 @@ fun ProfileScreen(
         Divider()
         Row(
             modifier = Modifier
-                .clickable { navController.navigate("user_daily_calorie") }
+                .clickable { navController.navigate(NavRoutes.USER_DAILY_CALORIE) }
                 .padding(vertical = 16.dp),
         ) {
             Icon(
@@ -92,7 +93,7 @@ fun ProfileScreen(
         if (showLanguageDialog) {
             LanguagePickerDialog(
                 selectedLanguage = selectedLanguage,
-                changeLanguage = profileScreenViewModel::changeLanguage,
+                changeLanguage = settingsScreenViewModel::changeLanguage,
                 onDismissRequest = { showLanguageDialog = false }
             )
         }

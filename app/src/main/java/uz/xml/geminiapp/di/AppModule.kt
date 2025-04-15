@@ -6,14 +6,15 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import uz.xml.geminiapp.BuildConfig
 import uz.xml.geminiapp.data.repository.GeminiRepositoryImpl
-import uz.xml.geminiapp.data.repository.ProfileRepositoryImpl
+import uz.xml.geminiapp.data.repository.SettingsRepositoryImpl
 import uz.xml.geminiapp.domain.repository.GeminiRepository
-import uz.xml.geminiapp.domain.repository.ProfileRepository
+import uz.xml.geminiapp.domain.repository.SettingsRepository
+import uz.xml.geminiapp.domain.usecase.GetSelectedLanguageUseCase
 import uz.xml.geminiapp.presentation.analysis.AnalyzeViewModel
 import uz.xml.geminiapp.presentation.camera.CameraViewModel
-import uz.xml.geminiapp.presentation.language.LanguageViewModel
-import uz.xml.geminiapp.presentation.profile.ProfileScreenViewModel
 import uz.xml.geminiapp.presentation.daily_calorie.DailyCaloriesViewModel
+import uz.xml.geminiapp.presentation.language.LanguageViewModel
+import uz.xml.geminiapp.presentation.profile.SettingsScreenViewModel
 
 val appModule = module {
 
@@ -31,16 +32,23 @@ val appModule = module {
         )
     }
 
-    single<ProfileRepository> { ProfileRepositoryImpl(context = androidContext()) }
+    single<SettingsRepository> { SettingsRepositoryImpl(context = androidContext()) }
+
+    single { GetSelectedLanguageUseCase(settingsRepository = get<SettingsRepository>()) }
 
     viewModel { AnalyzeViewModel(get<GeminiRepository>()) }
 
     viewModel { LanguageViewModel() }
 
-    viewModel { CameraViewModel() }
+    viewModel { CameraViewModel(getSelectedLanguageUseCase = get<GetSelectedLanguageUseCase>()) }
 
-    viewModel { ProfileScreenViewModel(profileRepository = get<ProfileRepository>()) }
+    viewModel { SettingsScreenViewModel(settingsRepository = get<SettingsRepository>()) }
 
-    viewModel { DailyCaloriesViewModel(geminiRepository = get<GeminiRepository>()) }
+    viewModel {
+        DailyCaloriesViewModel(
+            geminiRepository = get<GeminiRepository>(),
+            getSelectedLanguageUseCase = get<GetSelectedLanguageUseCase>()
+        )
+    }
 
 }

@@ -5,7 +5,7 @@
     <string name="analyzing_food">Analyzing your food...</string>
     <string name="calorie_estimate_title">Calorie Estimate</string>
     <string name="nutrient_breakdown_title">Nutrient Breakdown</string>
-    <string name="food_categorization_title">.Food Categorization</string>
+    <string name="food_categorization_title">Food Categorization</string>
     <string name="food_suggestion_title">Meal Suggestion</string>
     <string name="prompt_calorie_estimate_button">Estimate Calories</string>
     <string name="prompt_nutrient_breakdown_button">Nutrient Breakdown</string>
@@ -43,5 +43,10 @@
     <string name="goal_gain">Gain weight</string>
     <string name="calculate_button">Calculate</string>
     <string name="result_title">Your Calorie Estimation</string>
+    <string name="analysis_error_text">No analysis result available</string>
+    <string name="failure_estimation">Failed to estimate calories: %1$s</string>
+    <string name="calorie_prompt_intro">Calculate the estimated daily calorie intake for a person with the following details:</string>
+    <string name="calorie_goal_desc">(maintain, lose, or gain weight)</string>
+    <string name="calorie_prompt_conclusion">Provide the calorie amount in kcal per day and a short explanation.</string>
 
 </resources>

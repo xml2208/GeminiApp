@@ -3,7 +3,7 @@ package uz.xml.geminiapp.domain.repository
 import kotlinx.coroutines.flow.Flow
 import uz.xml.geminiapp.presentation.language.AppLanguage
 
-interface ProfileRepository {
+interface SettingsRepository {
     val selectedLanguage: Flow<AppLanguage>
     suspend fun setLanguage(language: AppLanguage)
 }

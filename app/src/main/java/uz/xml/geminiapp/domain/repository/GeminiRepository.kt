@@ -18,5 +18,6 @@ interface GeminiRepository {
         weightKg: Int,
         activityLevel: String,
         goal: String,
+        language: AppLanguage,
     ): String
 }
