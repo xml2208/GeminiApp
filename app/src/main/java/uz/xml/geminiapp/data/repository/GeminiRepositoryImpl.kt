@@ -25,7 +25,7 @@ class GeminiRepositoryImpl(
         return withContext(Dispatchers.IO) {
             try {
                 val localizedContext = context.getLocalizedContext(language)
-                val promptText = localizedContext.getString(promptType.textResId)
+                val promptText = promptType.textResId?.let { localizedContext.getString(it) }.orEmpty()
                 val inputContent = content {
                     image(bitmap)
                     text(promptText)

@@ -49,4 +49,7 @@
     <string name="calorie_prompt_intro">Quyidagi ma\'lumotlar bilan bir kishi uchun hisoblangan kunlik kaloriya miqdorini hisoblang:</string>
     <string name="calorie_goal_desc">(vaznni saqlash, yo\'qotish yoki kamaytirish)</string>
     <string name="calorie_prompt_conclusion">Kuniga kkal da kaloriya miqdori va qisqacha tushuntirish ber.</string>
+    <string name="custom_prompt">Maxsus so‘rov</string>
+    <string name="enter_your_prompt">So‘rovingizni kiriting</string>
+    <string name="ok">OK</string>
 </resources>

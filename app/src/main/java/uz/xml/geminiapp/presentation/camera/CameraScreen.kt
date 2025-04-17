@@ -24,9 +24,12 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
@@ -68,11 +71,19 @@ fun CameraScreen(
         capturedPhotoUri = uiState.capturedPhotoUri,
         hasValidPhoto = uiState.hasValidPhoto,
         onPhotoCapture = viewModel::saveCapturedPhoto,
+        customPromptUiState = uiState.customPromptUiState,
         onNavigateBack = { navController.navigateUp() },
+        onOtherButtonClicked = { viewModel.showCustomPromptDialog() },
         onNavigateToResult = { uri, prompt ->
             val encodedUri = Uri.encode(uri.toString())
             val promptString = GeminiPrompt.toString(prompt)
-            navController.navigate(NavRoutes.ResultScreen.createRoute(encodedUri, promptString, selectedLanguage))
+            navController.navigate(
+                NavRoutes.ResultScreen.createRoute(
+                    imageUri = encodedUri,
+                    promptType = promptString,
+                    language = selectedLanguage
+                )
+            )
         }
     )
 }
@@ -81,6 +92,8 @@ fun CameraScreen(
 fun CameraScreenContent(
     capturedPhotoUri: Uri?,
     hasValidPhoto: Boolean,
+    customPromptUiState: CustomPromptUiState,
+    onOtherButtonClicked: () -> Unit,
     onPhotoCapture: (Uri) -> Unit,
     onNavigateBack: () -> Unit,
     onNavigateToResult: (Uri, GeminiPrompt) -> Unit,
@@ -131,13 +144,13 @@ fun CameraScreenContent(
         GeminiPromptsContent(
             hasValidPhoto = hasValidPhoto,
             onPromptSelected = { prompt ->
-                capturedPhotoUri?.let { uri ->
-                    onNavigateToResult(uri, prompt)
-                }
+                capturedPhotoUri?.let { uri -> onNavigateToResult(uri, prompt) }
             },
             modifier = Modifier
                 .weight(1f)
-                .padding(top = 26.dp)
+                .padding(top = 26.dp),
+            onOtherButtonClicked = { onOtherButtonClicked() },
+            customPromptUiState = customPromptUiState
         )
     }
 }
@@ -261,6 +274,8 @@ private fun createImageFile(context: Context): File {
 private fun GeminiPromptsContent(
     hasValidPhoto: Boolean,
     onPromptSelected: (GeminiPrompt) -> Unit,
+    onOtherButtonClicked: () -> Unit,
+    customPromptUiState: CustomPromptUiState,
     modifier: Modifier = Modifier,
 ) {
     val prompts = remember {
@@ -296,6 +311,20 @@ private fun GeminiPromptsContent(
                     onClick = { onPromptSelected(prompt) }
                 )
             }
+            item {
+                GeminiPromptButton(
+                    prompt = GeminiPrompt.Other(customPrompt = customPromptUiState.customPrompt),
+                    enabled = hasValidPhoto,
+                    onClick = { onOtherButtonClicked() }
+                )
+            }
+        }
+        if (customPromptUiState.showDialog) {
+            UserCustomPromptDialog(
+                customPromptUiState = customPromptUiState,
+                onPromptSelected = {
+                    onPromptSelected(GeminiPrompt.Other(customPromptUiState.customPrompt))
+                })
         }
     }
 }
@@ -306,17 +335,18 @@ private fun GeminiPromptButton(
     enabled: Boolean,
     onClick: () -> Unit,
 ) {
-    val buttonTextResId = when (prompt) {
-        is GeminiPrompt.CalorieEstimate -> R.string.prompt_calorie_estimate_button
-        is GeminiPrompt.NutrientBreakdown -> R.string.prompt_nutrient_breakdown_button
-        is GeminiPrompt.FoodCategorization -> R.string.prompt_food_categorization_button
-        is GeminiPrompt.FoodSuggestion -> R.string.prompt_food_suggestion_button
+    val buttonText = when (prompt) {
+        is GeminiPrompt.CalorieEstimate -> stringResource(R.string.prompt_calorie_estimate_button)
+        is GeminiPrompt.NutrientBreakdown -> stringResource(R.string.prompt_nutrient_breakdown_button)
+        is GeminiPrompt.FoodCategorization -> stringResource(R.string.prompt_food_categorization_button)
+        is GeminiPrompt.FoodSuggestion -> stringResource(R.string.prompt_food_suggestion_button)
+        is GeminiPrompt.Other -> prompt.customPrompt.ifBlank { stringResource(R.string.custom_prompt) }
     }
 
     val backgroundColor = if (enabled) Color.Black else Color.Gray
 
     Text(
-        text = stringResource(buttonTextResId),
+        text = buttonText,
         modifier = Modifier
             .clip(RoundedCornerShape(10.dp))
             .background(backgroundColor)
@@ -325,6 +355,40 @@ private fun GeminiPromptButton(
         textAlign = TextAlign.Center,
         color = Color.White,
     )
+}
+
+@Composable
+fun UserCustomPromptDialog(
+    customPromptUiState: CustomPromptUiState,
+    onPromptSelected: (GeminiPrompt) -> Unit,
+) {
+    if (customPromptUiState.showDialog) {
+        AlertDialog(
+            onDismissRequest = { customPromptUiState.onDismiss() },
+            text = {
+                TextField(
+                    value = customPromptUiState.customPrompt,
+                    onValueChange = { customPromptUiState.onValueChange(it) },
+                    label = { Text(stringResource(R.string.enter_your_prompt)) }
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        onPromptSelected(GeminiPrompt.Other(customPromptUiState.customPrompt))
+                        customPromptUiState.onConfirm()
+                    },
+                    content = { Text(stringResource(R.string.ok)) },
+                )
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = { customPromptUiState.onDismiss },
+                    content = { Text(stringResource(R.string.cancel)) }
+                )
+            }
+        )
+    }
 }
 
 @androidx.compose.ui.tooling.preview.Preview(showBackground = true)
@@ -343,6 +407,8 @@ fun CameraScreenPreview(modifier: Modifier = Modifier) {
     CameraScreenContent(
         capturedPhotoUri = null,
         hasValidPhoto = false,
+        customPromptUiState = CustomPromptUiState(),
+        onOtherButtonClicked = { },
         onPhotoCapture = { },
         onNavigateBack = { },
         onNavigateToResult = { _, _ -> },

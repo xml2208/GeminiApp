@@ -49,4 +49,7 @@
     <string name="calorie_prompt_intro">Рассчитайте предполагаемое суточное потребление калорий для человека, используя следующие данные:</string>
     <string name="calorie_goal_desc">(поддерживать, терять или набирать вес)</string>
     <string name="calorie_prompt_conclusion">Укажите количество калорий в ккал в день и краткое пояснение.</string>
+    <string name="custom_prompt">Пользовательский запрос</string>
+    <string name="enter_your_prompt">Введите ваш запрос:</string>
+    <string name="ok">OK</string>
 </resources>

@@ -34,4 +34,48 @@ class CameraViewModel(
         }
     }
 
+    fun onCustomPromptChanged(prompt: String) {
+        _uiSate.update { currentState ->
+            currentState.copy(
+                customPromptUiState = currentState.customPromptUiState.copy(
+                    customPrompt = prompt
+                )
+            )
+        }
+    }
+
+    fun onCustomPromptConfirmed() {
+        _uiSate.update { currentState ->
+            currentState.copy(
+                customPromptUiState = currentState.customPromptUiState.copy(
+                    customPrompt = "",
+                    showDialog = false
+                )
+            )
+        }
+    }
+
+    fun onCustomPromptDismissed() {
+        _uiSate.update { currentState ->
+            currentState.copy(
+                customPromptUiState = currentState.customPromptUiState.copy(
+                    customPrompt = "",
+                    showDialog = false
+                )
+            )
+        }
+    }
+
+    fun showCustomPromptDialog() {
+        _uiSate.update { currentState ->
+            currentState.copy(
+                customPromptUiState = currentState.customPromptUiState.copy(
+                    showDialog = true,
+                    onDismiss = ::onCustomPromptDismissed,
+                    onValueChange = ::onCustomPromptChanged,
+                    onConfirm = ::onCustomPromptConfirmed
+                )
+            )
+        }
+    }
 }

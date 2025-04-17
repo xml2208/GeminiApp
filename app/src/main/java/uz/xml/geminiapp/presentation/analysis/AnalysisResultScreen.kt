@@ -62,14 +62,15 @@ fun ResultScreen(
         )
 
         val titleResId = when (prompt) {
-            is GeminiPrompt.CalorieEstimate -> R.string.calorie_estimate_title
-            is GeminiPrompt.NutrientBreakdown -> R.string.nutrient_breakdown_title
-            is GeminiPrompt.FoodCategorization -> R.string.food_categorization_title
-            is GeminiPrompt.FoodSuggestion -> R.string.food_suggestion_title
+            is GeminiPrompt.CalorieEstimate -> stringResource(R.string.calorie_estimate_title)
+            is GeminiPrompt.NutrientBreakdown -> stringResource(R.string.nutrient_breakdown_title)
+            is GeminiPrompt.FoodCategorization -> stringResource(R.string.food_categorization_title)
+            is GeminiPrompt.FoodSuggestion -> stringResource(R.string.food_suggestion_title)
+            is GeminiPrompt.Other -> stringResource(R.string.custom_prompt)
         }
 
         Text(
-            text = stringResource(id = titleResId),
+            text = titleResId,
             style = MaterialTheme.typography.headlineSmall
         )
         Spacer(modifier = Modifier.height(16.dp))
