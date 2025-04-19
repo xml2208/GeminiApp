@@ -48,8 +48,12 @@
     <string name="failure_estimation">Kaloriyalarni hisoblashda xatolik yuz berdi: %1$s</string>
     <string name="calorie_prompt_intro">Quyidagi ma\'lumotlar bilan bir kishi uchun hisoblangan kunlik kaloriya miqdorini hisoblang:</string>
     <string name="calorie_goal_desc">(vaznni saqlash, yo\'qotish yoki kamaytirish)</string>
-    <string name="calorie_prompt_conclusion">Kuniga kkal da kaloriya miqdori va qisqacha tushuntirish ber.</string>
+    <string name="calorie_prompt_conclusion">Kuniga kkal da kaloriya miqdorini ayt</string>
     <string name="custom_prompt">Maxsus so‘rov</string>
     <string name="enter_your_prompt">So‘rovingizni kiriting</string>
     <string name="ok">OK</string>
+    <string name="enter_height">Bo\'yingizni kiriting(sm da)</string>
+    <string name="enter_weight">Vazningizni kiriting(kg da)</string>
+    <string name="enter_your_age">Yoshingizni kiriting</string>
+    <string name="daily_calorie_calculator">Kundalik kaloriya kalkulyatori</string>
 </resources>

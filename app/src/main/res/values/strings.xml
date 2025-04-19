@@ -47,9 +47,13 @@
     <string name="failure_estimation">Failed to estimate calories: %1$s</string>
     <string name="calorie_prompt_intro">Calculate the estimated daily calorie intake for a person with the following details:</string>
     <string name="calorie_goal_desc">(maintain, lose, or gain weight)</string>
-    <string name="calorie_prompt_conclusion">Provide the calorie amount in kcal per day and a short explanation.</string>
+    <string name="calorie_prompt_conclusion">Provide the calorie amount in kcal per day. Show the result number only</string>
     <string name="custom_prompt">Custom Prompt</string>
     <string name="enter_your_prompt">Enter your prompt</string>
     <string name="ok">OK</string>
+    <string name="enter_height">Enter height in cm</string>
+    <string name="enter_weight">Enter weight in kg</string>
+    <string name="enter_your_age">Enter your age</string>
+    <string name="daily_calorie_calculator">Daily Calorie Calculator</string>
 
 </resources>
