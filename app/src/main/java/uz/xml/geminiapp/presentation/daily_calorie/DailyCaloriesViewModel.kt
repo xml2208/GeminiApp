@@ -19,6 +19,9 @@ class DailyCaloriesViewModel(
     var uiState = mutableStateOf("")
         private set
 
+    private val _isLoading = mutableStateOf(false)
+    val isLoading: State<Boolean> = _isLoading
+
     private val _formState = mutableStateOf(CalorieFormState("", "", ""))
     val formState: State<CalorieFormState> = _formState
 
@@ -82,6 +85,7 @@ class DailyCaloriesViewModel(
     ) {
         viewModelScope.launch {
             try {
+                _isLoading.value = true
                 val result = geminiRepository.estimateDailyCalories(
                     gender = gender,
                     age = age,
@@ -91,8 +95,10 @@ class DailyCaloriesViewModel(
                     goal = goal,
                     language = currentLanguage
                 )
+                _isLoading.value = false
                 uiState.value = result
             } catch (e: Exception) {
+                _isLoading.value = true
                 uiState.value = "Error: ${e.message}"
             }
         }

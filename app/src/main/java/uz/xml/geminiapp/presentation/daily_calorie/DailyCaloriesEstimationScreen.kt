@@ -22,6 +22,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -64,6 +65,7 @@ fun DailyCaloriesEstimationScreen(
     val showActivity by viewModel.showActivity
     val showGoal by viewModel.showGoal
     val showCalculateButton by viewModel.showCalculateButton
+    val isLoading by viewModel.isLoading
 
     val totalSteps = 7
     var completedSteps = 1
@@ -153,6 +155,7 @@ fun DailyCaloriesEstimationScreen(
             ) {
                 GradientButton(
                     text = stringResource(R.string.calculate_button),
+                    isLoading = isLoading,
                     onClick = {
                         viewModel.estimateCalories(
                             gender = formState.gender,
@@ -181,6 +184,7 @@ fun DailyCaloriesEstimationScreen(
 @Composable
 fun GradientButton(
     text: String,
+    isLoading: Boolean,
     onClick: () -> Unit
 ) {
     Button(
@@ -188,8 +192,8 @@ fun GradientButton(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp),
-        shape = RoundedCornerShape(28.dp),
         colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
+        shape = RoundedCornerShape(28.dp),
         contentPadding = ButtonDefaults.ContentPadding
     ) {
         Box(
@@ -200,11 +204,15 @@ fun GradientButton(
                 ),
             contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = text,
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.titleMedium
-            )
+            if (isLoading) {
+                CircularProgressIndicator()
+            } else {
+                Text(
+                    text = text,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
         }
     }
 }
