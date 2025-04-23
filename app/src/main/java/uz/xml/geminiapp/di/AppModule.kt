@@ -1,5 +1,6 @@
 package uz.xml.geminiapp.di
 
+import MealPlanViewModel
 import com.google.ai.client.generativeai.GenerativeModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -48,6 +49,13 @@ val appModule = module {
         DailyCaloriesViewModel(
             geminiRepository = get<GeminiRepository>(),
             getSelectedLanguageUseCase = get<GetSelectedLanguageUseCase>()
+        )
+    }
+
+    viewModel {
+        MealPlanViewModel(
+            geminiRepository = get<GeminiRepository>(),
+            getSelectedLanguageUseCase = get<GetSelectedLanguageUseCase>(),
         )
     }
 

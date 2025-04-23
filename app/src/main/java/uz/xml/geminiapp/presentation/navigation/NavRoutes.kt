@@ -10,6 +10,7 @@ object NavRoutes {
     const val CAMERA = "camera"
     const val SETTINGS = "settings"
     const val USER_DAILY_CALORIE = "user_daily_calorie"
+    const val MEAL_PLAN = "meal_plan"
     
     object ResultScreen {
         private const val ROUTE = "result_screen"

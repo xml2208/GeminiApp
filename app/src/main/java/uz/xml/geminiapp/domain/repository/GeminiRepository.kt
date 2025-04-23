@@ -1,6 +1,7 @@
 package uz.xml.geminiapp.domain.repository
 
 import android.graphics.Bitmap
+import uz.xml.geminiapp.data.model.MealPlanRequest
 import uz.xml.geminiapp.domain.model.GeminiPrompt
 import uz.xml.geminiapp.presentation.language.AppLanguage
 
@@ -19,5 +20,10 @@ interface GeminiRepository {
         activityLevel: String,
         goal: String,
         language: AppLanguage,
+    ): String
+
+    suspend fun generateMealPlan(
+        mealPlanRequest: MealPlanRequest,
+        language: AppLanguage
     ): String
 }

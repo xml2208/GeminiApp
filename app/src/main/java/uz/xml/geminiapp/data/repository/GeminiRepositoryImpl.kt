@@ -7,6 +7,7 @@ import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import uz.xml.geminiapp.R
+import uz.xml.geminiapp.data.model.MealPlanRequest
 import uz.xml.geminiapp.domain.model.GeminiPrompt
 import uz.xml.geminiapp.domain.repository.GeminiRepository
 import uz.xml.geminiapp.presentation.language.AppLanguage
@@ -25,7 +26,8 @@ class GeminiRepositoryImpl(
         return withContext(Dispatchers.IO) {
             try {
                 val localizedContext = context.getLocalizedContext(language)
-                val promptText = promptType.textResId?.let { localizedContext.getString(it) }.orEmpty()
+                val promptText =
+                    promptType.textResId?.let { localizedContext.getString(it) }.orEmpty()
                 val inputContent = content {
                     image(bitmap)
                     text(promptText)
@@ -71,4 +73,35 @@ class GeminiRepositoryImpl(
             }
         }
     }
+
+    override suspend fun generateMealPlan(
+        mealPlanRequest: MealPlanRequest,
+        language: AppLanguage
+    ): String {
+        return withContext(Dispatchers.IO) {
+            try {
+                val localizedContext = context.getLocalizedContext(language)
+
+                val prompt = localizedContext.getString(
+                    R.string.meal_plan_prompt,
+                    mealPlanRequest.dailyCalories,
+                    mealPlanRequest.mealsPerDay,
+                    mealPlanRequest.allergies.ifEmpty { "None" },
+                    mealPlanRequest.likesDislikes.ifEmpty { "None" },
+                    mealPlanRequest.dietType,
+                    mealPlanRequest.activityLevel,
+                    mealPlanRequest.cuisineType.ifEmpty { "No preference" },
+                    mealPlanRequest.goal
+                )
+
+                val input = content { text(prompt) }
+                val response = generativeModel.generateContent(input)
+                response.text ?: localizedContext.getString(R.string.error_generating_plan)
+            } catch (e: Exception) {
+                throw Exception(context.getString(R.string.error_generating_plan))
+            }
+        }
+    }
+
+
 }

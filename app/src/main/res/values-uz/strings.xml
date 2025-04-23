@@ -56,4 +56,35 @@
     <string name="enter_weight">Vazningizni kiriting(kg da)</string>
     <string name="enter_your_age">Yoshingizni kiriting</string>
     <string name="daily_calorie_calculator">Kundalik kaloriya kalkulyatori</string>
+
+    <string name="meal_plan_title">Ovqatlanish rejasini yarating</string>
+    <string name="no_calories_warning">Siz hali kunlik kaloriyangizni hisoblamadingiz</string>
+    <string name="calculate_calories">Kaloriyalarni hisoblash</string>
+    <string name="meals_per_day">Kuniga nechta ovqatlanishni xohlaysiz?</string>
+    <string name="allergies">Sizda allergiya yoki ko\'tara olmaydigan mahsulotlar bormi?</string>
+    <string name="allergies_placeholder">Masalan, yong\'oq, sut mahsulotlari, gluten</string>
+    <string name="likes_dislikes">Qanday ovqatlarni yaxshi ko\'rasiz/yoqtirmaysiz?</string>
+    <string name="likes_dislikes_placeholder">Masalan, sabzavotlarni yaxshi ko\'raman, baliqni yoqtirmayman</string>
+    <string name="diet_type">Parhez turi</string>
+    <string name="diet_none">Yo\'q</string>
+    <string name="diet_vegetarian">Vegetarian</string>
+    <string name="diet_vegan">Vegan</string>
+    <string name="diet_keto">Keto</string>
+    <string name="diet_healthy">Sog\'lom ovqatlanish</string>
+    <string name="activity_level">Jismoniy faollik darajangiz qanday?</string>
+    <string name="activity_low">Past</string>
+    <string name="activity_medium">O\'rta</string>
+    <string name="activity_high">Yuqori</string>
+    <string name="cuisine_type">Afzal ko\'rilgan oshxona turi</string>
+    <string name="cuisine_type_placeholder">Masalan, italyan, osiyo, o\'rta yer dengizi</string>
+    <string name="generate_meal_plan">Ovqatlanish rejasini yaratish</string>
+    <string name="daily_calories">Kunlik kaloriyalar: %1$d</string>
+    <string name="loading">Ovqatlanish rejangiz yaratilmoqda...</string>
+    <string name="meal_plan_prompt">Iltimos, quyidagi ma\'lumotlar asosida shaxsiy ovqatlanish rejasini tuzing:\n\nKunlik kaloriya maqsadi: %1$d kaloriya\nKunlik ovqatlanishlar soni: %2$d\nAllergiyalar: %3$s\nYoqtirgan/yoqtirmagan taomlar: %4$s\nParhez turi: %5$s\nFaollik darajasi: %6$s\nAfzal ko\'rilgan oshxona: %7$s\nMaqsad: %8$s\n\nIltimos, har bir ovqat uchun aniq mahsulotlar, porsiya o\'lchamlari va taxminiy kaloriyalar bilan batafsil ovqatlanish rejasini taqdim eting. Ozuqaviy xususiyatlarni ham qo\'shing va umumiy miqdor taxminan kunlik kaloriya maqsadimga teng ekanligiga ishonch hosil qiling.</string>
+    <string name="error_generating_plan">Ovqatlanish rejasini yaratishda xatolik yuz berdi. Iltimos, qayta urinib ko\'ring.</string>
+    <string name="required_field">Majburiy maydon</string>
+    <string name="enter_calories">Kunlik kaloriyangizni kiriting</string>
+    <string name="calories_placeholder">Masalan, 2000</string>
+    <string name="calories_input_error">Iltimos, to\'g\'ri kaloriya miqdorini kiriting</string>
+
 </resources>

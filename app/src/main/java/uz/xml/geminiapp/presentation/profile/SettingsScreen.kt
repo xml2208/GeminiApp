@@ -90,6 +90,26 @@ fun SettingsScreen(
             )
         }
         Divider()
+
+        Row(
+            modifier = Modifier
+                .clickable { navController.navigate(NavRoutes.MEAL_PLAN) }
+                .padding(vertical = 16.dp),
+        ) {
+            Icon(
+                imageVector = Icons.Default.Build,
+                contentDescription = null
+            )
+            Text(
+                text = stringResource(R.string.meal_plan_title),
+                modifier = Modifier.weight(1f)
+            )
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowRight,
+                contentDescription = null
+            )
+        }
+        Divider()
         if (showLanguageDialog) {
             LanguagePickerDialog(
                 selectedLanguage = selectedLanguage,

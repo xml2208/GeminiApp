@@ -56,4 +56,35 @@
     <string name="enter_weight">Bведите вес в кг</string>
     <string name="enter_your_age">Введите ваш возраст</string>
     <string name="daily_calorie_calculator">Калькулятор ежедневного потребления калорий</string>
+
+    <string name="meal_plan_title">Создайте план питания</string>
+    <string name="no_calories_warning">Вы еще не рассчитали свою дневную норму калорий</string>
+    <string name="calculate_calories">Рассчитать калории</string>
+    <string name="meals_per_day">Сколько приёмов пищи вы хотите в день?</string>
+    <string name="allergies">Есть ли у вас аллергии или продукты, которые вы не переносите?</string>
+    <string name="allergies_placeholder">Например, орехи, молочные продукты, глютен</string>
+    <string name="likes_dislikes">Что вы любите/не любите есть?</string>
+    <string name="likes_dislikes_placeholder">Например, люблю овощи, не люблю рыбу</string>
+    <string name="diet_type">Тип диеты</string>
+    <string name="diet_none">Нет</string>
+    <string name="diet_vegetarian">Вегетарианство</string>
+    <string name="diet_vegan">Веганство</string>
+    <string name="diet_keto">Кето</string>
+    <string name="diet_healthy">ПП (Правильное питание)</string>
+    <string name="activity_level">Какой у вас уровень физической активности?</string>
+    <string name="activity_low">Низкий</string>
+    <string name="activity_medium">Средний</string>
+    <string name="activity_high">Высокий</string>
+    <string name="cuisine_type">Предпочитаемая кухня</string>
+    <string name="cuisine_type_placeholder">Например, итальянская, азиатская, средиземноморская</string>
+    <string name="generate_meal_plan">Создать план питания</string>
+    <string name="daily_calories">Дневная норма калорий: %1$d</string>
+    <string name="loading">Создаём ваш план питания...</string>
+    <string name="meal_plan_prompt">Пожалуйста, составьте персонализированный план питания на основе следующей информации:\n\nДневная норма калорий: %1$d калорий\nПриёмов пищи в день: %2$d\nАллергии: %3$s\nПредпочтения/нелюбимые продукты: %4$s\nТип диеты: %5$s\nУровень активности: %6$s\nПредпочитаемая кухня: %7$s\n цель:%8$s\nПожалуйста, предоставьте подробный план питания с конкретными продуктами, размерами порций и приблизительным количеством калорий для каждого приема пищи. Включите питательные особенности и убедитесь, что общее количество примерно равно моей дневной норме калорий.</string>
+    <string name="error_generating_plan">Ошибка при создании плана питания. Пожалуйста, попробуйте снова.</string>
+    <string name="required_field">Обязательное поле</string>
+    <string name="enter_calories">Введите дневную норму калорий</string>
+    <string name="calories_placeholder">Например, 2000</string>
+    <string name="calories_input_error">Пожалуйста, введите корректное количество калорий</string>
+
 </resources>

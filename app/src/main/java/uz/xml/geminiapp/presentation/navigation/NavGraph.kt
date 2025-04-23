@@ -13,6 +13,7 @@ import uz.xml.geminiapp.presentation.analysis.ResultScreen
 import uz.xml.geminiapp.presentation.camera.CameraScreen
 import uz.xml.geminiapp.presentation.daily_calorie.DailyCaloriesEstimationScreen
 import uz.xml.geminiapp.presentation.language.AppLanguage
+import uz.xml.geminiapp.presentation.meal_plan.MealPlanScreen
 import uz.xml.geminiapp.presentation.profile.SettingsScreen
 
 @Composable
@@ -56,6 +57,10 @@ fun CalorieApp() {
 
         composable(route = NavRoutes.USER_DAILY_CALORIE) {
             DailyCaloriesEstimationScreen()
+        }
+
+        composable(route = NavRoutes.MEAL_PLAN) {
+            MealPlanScreen(navController)
         }
     }
 }
