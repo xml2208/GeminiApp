@@ -59,6 +59,7 @@
     <string name="meal_plan_title">Create Your Meal Plan</string>
     <string name="no_calories_warning">You haven\'t calculated your daily calories yet</string>
     <string name="calculate_calories">Calculate Calories</string>
+    <string name="recalculate_calories">Recalculate Calories</string>
     <string name="meals_per_day">How many meals do you want per day?</string>
     <string name="allergies">Do you have any allergies or food intolerances?</string>
     <string name="allergies_placeholder">E.g., nuts, dairy, gluten</string>
@@ -77,7 +78,7 @@
     <string name="cuisine_type">Preferred cuisine type</string>
     <string name="cuisine_type_placeholder">E.g., Italian, Asian, Mediterranean</string>
     <string name="generate_meal_plan">Generate Meal Plan</string>
-    <string name="daily_calories">Daily calories: %1$d</string>
+    <string name="daily_calories">Daily calories: %1$s</string>
     <string name="loading">Generating your meal plan...</string>
     <string name="meal_plan_prompt">Please create a 7-day diet plan for me based on the following information:\n\nDaily calorie goal: %1$d calories\nMeals per day: %2$d\nAllergies: %3$s\nLikes/dislikes: %4$s\nDiet type: %5$s\nActivity level: %6$s\nCuisine preference: %7$s\n Goal:%8$s\n Please aim for a calorie deficit suitable.</string>
     <string name="error_generating_plan">Error generating meal plan. Please try again.</string>

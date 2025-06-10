@@ -60,6 +60,7 @@
     <string name="meal_plan_title">Создайте план питания</string>
     <string name="no_calories_warning">Вы еще не рассчитали свою дневную норму калорий</string>
     <string name="calculate_calories">Рассчитать калории</string>
+    <string name="recalculate_calories">Пересчитывать калории</string>
     <string name="meals_per_day">Сколько приёмов пищи вы хотите в день?</string>
     <string name="allergies">Есть ли у вас аллергии или продукты, которые вы не переносите?</string>
     <string name="allergies_placeholder">Например, орехи, молочные продукты, глютен</string>
@@ -78,7 +79,7 @@
     <string name="cuisine_type">Предпочитаемая кухня</string>
     <string name="cuisine_type_placeholder">Например, итальянская, азиатская, средиземноморская</string>
     <string name="generate_meal_plan">Создать план питания</string>
-    <string name="daily_calories">Дневная норма калорий: %1$d</string>
+    <string name="daily_calories">Дневная норма калорий: %1$s</string>
     <string name="loading">Создаём ваш план питания...</string>
     <string name="meal_plan_prompt">Пожалуйста, составьте персонализированный план питания на основе следующей информации:\n\nДневная норма калорий: %1$d калорий\nПриёмов пищи в день: %2$d\nАллергии: %3$s\nПредпочтения/нелюбимые продукты: %4$s\nТип диеты: %5$s\nУровень активности: %6$s\nПредпочитаемая кухня: %7$s\n цель:%8$s\nПожалуйста, предоставьте подробный план питания с конкретными продуктами, размерами порций и приблизительным количеством калорий для каждого приема пищи. Включите питательные особенности и убедитесь, что общее количество примерно равно моей дневной норме калорий.</string>
     <string name="error_generating_plan">Ошибка при создании плана питания. Пожалуйста, попробуйте снова.</string>

@@ -2,17 +2,22 @@ package uz.xml.geminiapp.presentation.daily_calorie
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import uz.xml.geminiapp.data.repository.PreferencesKeys
 import uz.xml.geminiapp.domain.repository.GeminiRepository
 import uz.xml.geminiapp.domain.usecase.GetSelectedLanguageUseCase
 import uz.xml.geminiapp.presentation.language.AppLanguage
 
 class DailyCaloriesViewModel(
     private val geminiRepository: GeminiRepository,
+    private val dataStore: DataStore<Preferences>,
     getSelectedLanguageUseCase: GetSelectedLanguageUseCase,
 ) : ViewModel() {
 
@@ -97,9 +102,18 @@ class DailyCaloriesViewModel(
                 )
                 _isLoading.value = false
                 uiState.value = result
+                saveCalories(result)
             } catch (e: Exception) {
                 _isLoading.value = true
                 uiState.value = "Error: ${e.message}"
+            }
+        }
+    }
+
+    private fun saveCalories(calories: String) {
+        viewModelScope.launch {
+            dataStore.edit { preferences ->
+                preferences[PreferencesKeys.DAILY_CALORIES] = calories
             }
         }
     }

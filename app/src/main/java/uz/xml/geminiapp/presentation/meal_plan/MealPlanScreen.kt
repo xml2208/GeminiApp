@@ -1,6 +1,5 @@
 package uz.xml.geminiapp.presentation.meal_plan
 
-import MealPlanViewModel
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -105,8 +104,22 @@ fun InputForm(
     navController: NavController,
 ) {
     val scrollState = rememberScrollState()
-    val hasDailyCalories = viewModel.hasDailyCalories()
-    val dailyCalories = viewModel.getDailyCalories()
+
+    val effectiveUseStoredCalories by viewModel.effectiveUseStoredCalories.collectAsState()
+    val storedCalories by viewModel.storedCalories.collectAsState()
+    val hasStoredCalories by viewModel.hasStoredCalories.collectAsState()
+    val calorieInput by viewModel.calorieInput.collectAsState()
+    val hasCalorieError by viewModel.hasCalorieError.collectAsState()
+    val mealsPerDay by viewModel.mealsPerDay.collectAsState()
+    val allergies by viewModel.allergies.collectAsState()
+    val hasAllergiesError by viewModel.hasAllergiesError.collectAsState()
+    val likesDislikes by viewModel.likesDislikes.collectAsState()
+    val hasLikesDislikesError by viewModel.hasLikesDislikesError.collectAsState()
+    val dietType by viewModel.dietType.collectAsState()
+    val goal by viewModel.goal.collectAsState()
+    val activityLevel by viewModel.activityLevel.collectAsState()
+    val cuisineType by viewModel.cuisineType.collectAsState()
+    val hasCuisineTypeError by viewModel.hasCuisineTypeError.collectAsState()
 
     Column(
         modifier = Modifier
@@ -135,7 +148,6 @@ fun InputForm(
             )
         }
 
-
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(
@@ -151,44 +163,52 @@ fun InputForm(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = viewModel.useStoredCalories,
+                        selected = effectiveUseStoredCalories,
                         onClick = {
-                            viewModel.toggleCalorieSource(true)
+                            if (hasStoredCalories) {
+                                viewModel.toggleCalorieSource(true)
+                            }
                         },
+                        enabled = hasStoredCalories,
                         colors = RadioButtonDefaults.colors(
                             selectedColor = Color.White,
-                            unselectedColor = Color.Gray
+                            unselectedColor = Color.Gray,
+                            disabledSelectedColor = Color.Gray,
+                            disabledUnselectedColor = Color.Gray
                         )
                     )
 
+
                     Text(
-                        text =
-                            if (hasDailyCalories) {
-                                stringResource(R.string.daily_calories, dailyCalories)
-                            } else {
-                                stringResource(R.string.no_calories_warning)
-                            },
-                        color = if (hasDailyCalories) Color.White else Color.Red,
+                        text = if (hasStoredCalories) {
+                            stringResource(R.string.daily_calories, storedCalories)
+                        } else {
+                            stringResource(R.string.no_calories_warning)
+                        },
+                        color = if (hasStoredCalories) Color.White else Color.Red,
                         modifier = Modifier
-                            .clickable { viewModel.toggleCalorieSource(true) }
+                            .clickable(enabled = hasStoredCalories) {
+                                if (hasStoredCalories) {
+                                    viewModel.toggleCalorieSource(true)
+                                }
+                            }
                             .weight(1f)
                             .padding(start = 8.dp)
                     )
 
-                    if (!hasDailyCalories) {
-                        Button(
-                            onClick = { navController.navigate(NavRoutes.USER_DAILY_CALORIE) },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.White
-                            ),
-                            shape = RoundedCornerShape(8.dp),
-                            modifier = Modifier.padding(start = 8.dp)
-                        ) {
-                            Text(
-                                text = stringResource(R.string.calculate_calories),
-                                color = Color.Black,
-                            )
-                        }
+
+                    Button(
+                        onClick = { navController.navigate(NavRoutes.USER_DAILY_CALORIE) },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White
+                        ),
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier.padding(start = 8.dp)
+                    ) {
+                        Text(
+                            text = if (!hasStoredCalories) stringResource(R.string.calculate_calories) else stringResource(R.string.recalculate_calories),
+                            color = Color.Black,
+                        )
                     }
                 }
 
@@ -199,7 +219,7 @@ fun InputForm(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     RadioButton(
-                        selected = !viewModel.useStoredCalories,
+                        selected = !effectiveUseStoredCalories, // Changed from !useStoredCalories
                         onClick = { viewModel.toggleCalorieSource(false) },
                         colors = RadioButtonDefaults.colors(
                             selectedColor = Color.White,
@@ -217,13 +237,13 @@ fun InputForm(
                 }
 
                 AnimatedVisibility(
-                    visible = !viewModel.useStoredCalories,
+                    visible = !effectiveUseStoredCalories,
                     enter = fadeIn() + expandVertically(),
                     exit = fadeOut() + shrinkVertically()
                 ) {
                     Column {
                         OutlinedTextField(
-                            value = viewModel.calorieInput,
+                            value = calorieInput,
                             onValueChange = { viewModel.updateCalorieInput(it) },
                             placeholder = { Text(stringResource(R.string.calories_placeholder)) },
                             keyboardOptions = KeyboardOptions(
@@ -233,14 +253,18 @@ fun InputForm(
                             colors = TextFieldDefaults.outlinedTextFieldColors(
                                 focusedBorderColor = Color.White,
                                 unfocusedBorderColor = Color.Gray,
+                                focusedTextColor = Color.White,
+                                unfocusedTextColor = Color.White,
+                                focusedPlaceholderColor = Color.Gray,
+                                unfocusedPlaceholderColor = Color.Gray
                             ),
-                            isError = viewModel.hasCalorieError,
+                            isError = hasCalorieError,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(top = 8.dp)
                         )
 
-                        if (viewModel.hasCalorieError) {
+                        if (hasCalorieError) {
                             Text(
                                 text = stringResource(R.string.calories_input_error),
                                 color = MaterialTheme.colorScheme.error,
@@ -267,14 +291,14 @@ fun InputForm(
             listOf(3, 4, 5).forEach { count ->
                 MealCountOption(
                     count = count,
-                    selected = viewModel.mealsPerDay == count,
+                    selected = mealsPerDay == count,
                     onSelect = { viewModel.updateMealsPerDay(count) }
                 )
             }
         }
 
         OutlinedTextField(
-            value = viewModel.allergies,
+            value = allergies,
             onValueChange = { viewModel.updateAllergies(it) },
             label = { Text(stringResource(R.string.allergies)) },
             placeholder = { Text(stringResource(R.string.allergies_placeholder)) },
@@ -287,10 +311,10 @@ fun InputForm(
                 unfocusedPlaceholderColor = TextSecondary,
                 focusedPlaceholderColor = TextSecondary
             ),
-            isError = viewModel.hasAllergiesError
+            isError = hasAllergiesError
         )
 
-        if (viewModel.hasAllergiesError) {
+        if (hasAllergiesError) {
             Text(
                 text = stringResource(R.string.required_field),
                 color = MaterialTheme.colorScheme.error,
@@ -300,7 +324,7 @@ fun InputForm(
         }
 
         OutlinedTextField(
-            value = viewModel.likesDislikes,
+            value = likesDislikes,
             onValueChange = { viewModel.updateLikesDislikes(it) },
             label = { Text(stringResource(R.string.likes_dislikes)) },
             placeholder = { Text(stringResource(R.string.likes_dislikes_placeholder)) },
@@ -315,10 +339,10 @@ fun InputForm(
                 unfocusedPlaceholderColor = TextSecondary,
                 focusedPlaceholderColor = TextSecondary,
             ),
-            isError = viewModel.hasLikesDislikesError
+            isError = hasLikesDislikesError
         )
 
-        if (viewModel.hasLikesDislikesError) {
+        if (hasLikesDislikesError) {
             Text(
                 text = stringResource(R.string.required_field),
                 color = MaterialTheme.colorScheme.error,
@@ -344,7 +368,7 @@ fun InputForm(
 
         DietTypeSelector(
             options = dietOptions,
-            selectedOption = viewModel.dietType,
+            selectedOption = dietType,
             onOptionSelected = { viewModel.updateDietType(it) }
         )
 
@@ -363,7 +387,7 @@ fun InputForm(
 
         DietTypeSelector(
             options = goalOptions,
-            selectedOption = viewModel.goal,
+            selectedOption = goal,
             onOptionSelected = viewModel::updateGoal
         )
 
@@ -382,12 +406,12 @@ fun InputForm(
 
         ActivityLevelSelector(
             options = activityOptions,
-            selectedOption = viewModel.activityLevel,
+            selectedOption = activityLevel,
             onOptionSelected = viewModel::updateActivityLevel
         )
 
         OutlinedTextField(
-            value = viewModel.cuisineType,
+            value = cuisineType,
             onValueChange = viewModel::updateCuisineType,
             label = { Text(stringResource(R.string.cuisine_type)) },
             placeholder = { Text(stringResource(R.string.cuisine_type_placeholder)) },
@@ -402,10 +426,10 @@ fun InputForm(
                 unfocusedPlaceholderColor = TextSecondary,
                 focusedPlaceholderColor = TextSecondary,
             ),
-            isError = viewModel.hasCuisineTypeError
+            isError = hasCuisineTypeError
         )
 
-        if (viewModel.hasCuisineTypeError) {
+        if (hasCuisineTypeError) {
             Text(
                 text = stringResource(R.string.required_field),
                 color = MaterialTheme.colorScheme.error,
@@ -420,7 +444,9 @@ fun InputForm(
                 .fillMaxWidth()
                 .height(56.dp)
                 .background(
-                    brush = Brush.horizontalGradient(listOf(AccentGradientStart, AccentGradientEnd)),
+                    brush = Brush.horizontalGradient(
+                        colors = listOf(AccentGradientStart, AccentGradientEnd)
+                    ),
                     shape = RoundedCornerShape(12.dp)
                 )
                 .padding(vertical = 8.dp),

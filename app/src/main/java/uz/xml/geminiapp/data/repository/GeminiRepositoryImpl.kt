@@ -2,6 +2,7 @@ package uz.xml.geminiapp.data.repository
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
@@ -96,6 +97,7 @@ class GeminiRepositoryImpl(
 
                 val input = content { text(prompt) }
                 val response = generativeModel.generateContent(input)
+                Log.d("xml", "generateMealPlan: ${response.text}")
                 response.text ?: localizedContext.getString(R.string.error_generating_plan)
             } catch (e: Exception) {
                 throw Exception(context.getString(R.string.error_generating_plan))

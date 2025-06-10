@@ -1,192 +1,213 @@
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+package uz.xml.geminiapp.presentation.meal_plan
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import uz.xml.geminiapp.data.model.MealPlanRequest
 import uz.xml.geminiapp.domain.repository.GeminiRepository
+import uz.xml.geminiapp.domain.repository.UserPreferencesRepository
 import uz.xml.geminiapp.domain.usecase.GetSelectedLanguageUseCase
 import uz.xml.geminiapp.presentation.language.AppLanguage
-import uz.xml.geminiapp.presentation.meal_plan.ActivityLevel
-import uz.xml.geminiapp.presentation.meal_plan.DietType
-import uz.xml.geminiapp.presentation.meal_plan.Goal
-import uz.xml.geminiapp.presentation.meal_plan.MealPlanUiState
 
 class MealPlanViewModel(
     private val geminiRepository: GeminiRepository,
+    userPreferencesRepository: UserPreferencesRepository,
     getSelectedLanguageUseCase: GetSelectedLanguageUseCase,
-//    private val sharedPreferencesManager: SharedPreferencesManager
 ) : ViewModel() {
+
+    private val _mealsPerDay = MutableStateFlow(0)
+    val mealsPerDay: StateFlow<Int> = _mealsPerDay.asStateFlow()
+
+    private val _allergies = MutableStateFlow("")
+    val allergies: StateFlow<String> = _allergies.asStateFlow()
+
+    private val _likesDislikes = MutableStateFlow("")
+    val likesDislikes: StateFlow<String> = _likesDislikes.asStateFlow()
+
+    private val _dietType = MutableStateFlow(DietType.NONE.value)
+    val dietType: StateFlow<String> = _dietType.asStateFlow()
+
+    private val _activityLevel = MutableStateFlow(ActivityLevel.MEDIUM.value)
+    val activityLevel: StateFlow<String> = _activityLevel.asStateFlow()
+
+    private val _goal = MutableStateFlow(Goal.MAINTAIN.value)
+    val goal: StateFlow<String> = _goal.asStateFlow()
+
+    private val _cuisineType = MutableStateFlow("")
+    val cuisineType: StateFlow<String> = _cuisineType.asStateFlow()
+
+    private val _calorieInput = MutableStateFlow("")
+    val calorieInput: StateFlow<String> = _calorieInput.asStateFlow()
 
     private val _uiState = MutableStateFlow<MealPlanUiState>(MealPlanUiState.Input)
     val uiState: StateFlow<MealPlanUiState> = _uiState.asStateFlow()
+
+    private val _showValidationErrors = MutableStateFlow(false)
+
+    val storedCalories = userPreferencesRepository.caloriesFlow
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            ""
+        )
 
     private val currentLanguage = getSelectedLanguageUseCase()
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
             AppLanguage.ENGLISH
-        ).value
+        )
 
-    var mealsPerDay by mutableIntStateOf(0)
-        private set
+    val hasStoredCalories: StateFlow<Boolean> = storedCalories
+        .map { calories -> calories.isNotBlank() }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            false
+        )
 
-    var allergies by mutableStateOf("")
-        private set
+    private val _manualCalorieSelection = MutableStateFlow<Boolean?>(null)
 
-    var likesDislikes by mutableStateOf("")
-        private set
+    val effectiveUseStoredCalories: StateFlow<Boolean> = combine(
+        hasStoredCalories, _manualCalorieSelection
+    ) { hasStored, manualSelection -> manualSelection ?: hasStored }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        false
+    )
 
-    var dietType by mutableStateOf(DietType.NONE.value)
-        private set
+    private val dailyCalories: StateFlow<Int> = combine(
+        storedCalories,
+        _calorieInput,
+        effectiveUseStoredCalories
+    ) { stored, input, useStored ->
+        if (useStored && stored.isNotBlank()) {
+            stored.toIntOrNull() ?: 0
+        } else {
+            input.toIntOrNull() ?: 0
+        }
+    }.stateIn(
+        viewModelScope,
+        SharingStarted.WhileSubscribed(5000),
+        0
+    )
 
-    var activityLevel by mutableStateOf(ActivityLevel.MEDIUM.value)
-        private set
+    val hasAllergiesError: StateFlow<Boolean> = combine(
+        _allergies,
+        _showValidationErrors
+    ) { allergies, showErrors ->
+        showErrors && allergies.isBlank()
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    var goal by mutableStateOf(Goal.MAINTAIN.value)
-        private set
+    val hasLikesDislikesError: StateFlow<Boolean> = combine(
+        _likesDislikes,
+        _showValidationErrors
+    ) { likesDislikes, showErrors ->
+        showErrors && likesDislikes.isBlank()
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    var cuisineType by mutableStateOf("")
-        private set
+    val hasCuisineTypeError: StateFlow<Boolean> = combine(
+        _cuisineType,
+        _showValidationErrors
+    ) { cuisineType, showErrors ->
+        showErrors && cuisineType.isBlank()
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    var calorieInput by mutableStateOf("")
-        private set
+    val hasCalorieError: StateFlow<Boolean> = combine(
+        effectiveUseStoredCalories,
+        _calorieInput,
+        dailyCalories,
+        _showValidationErrors
+    ) { useStored, input, calories, showErrors ->
+        if (!showErrors) return@combine false
 
-    var hasAllergiesError by mutableStateOf(false)
-        private set
+        if (!useStored) {
+            input.isBlank() || input.toIntOrNull() == null || input.toIntOrNull()
+                ?.let { it <= 0 } == true
+        } else {
+            calories <= 0
+        }
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
-    var hasLikesDislikesError by mutableStateOf(false)
-        private set
-
-    var hasCuisineTypeError by mutableStateOf(false)
-        private set
-
-    var hasCalorieError by mutableStateOf(false)
-        private set
-
-    var useStoredCalories by mutableStateOf(true)
-        private set
-
-    fun getDailyCalories(): Int {
-        return 1800
-//        return sharedPreferencesManager.getDailyCalories()
-    }
-    fun hasDailyCalories(): Boolean {
-        return false
-//        return sharedPreferencesManager.hasDailyCalories()
-    }
+    private val isInternalFormValid: StateFlow<Boolean> = combine(
+        _allergies,
+        _likesDislikes,
+        _cuisineType,
+        dailyCalories,
+        _calorieInput
+    ) { allergies, likesDislikes, cuisineType, calories, input ->
+        allergies.isNotBlank() &&
+                likesDislikes.isNotBlank() &&
+                cuisineType.isNotBlank() &&
+                (calories > 0 || (input.isNotBlank() && input.toIntOrNull() != null && input.toInt() > 0))
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     fun updateMealsPerDay(value: Int) {
-        mealsPerDay = value
+        _mealsPerDay.value = value
     }
 
     fun updateAllergies(value: String) {
-        allergies = value
-        hasAllergiesError = false
+        _allergies.value = value
     }
 
     fun updateLikesDislikes(value: String) {
-        likesDislikes = value
-        hasLikesDislikesError = false
+        _likesDislikes.value = value
     }
 
     fun updateDietType(value: String) {
-        dietType = value
+        _dietType.value = value
     }
 
     fun updateActivityLevel(value: String) {
-        activityLevel = value
+        _activityLevel.value = value
     }
 
     fun updateGoal(value: String) {
-        goal = value
+        _goal.value = value
     }
 
     fun updateCuisineType(value: String) {
-        cuisineType = value
-        hasCuisineTypeError = false
+        _cuisineType.value = value
     }
 
     fun updateCalorieInput(value: String) {
-        calorieInput = value
-        if (value.isNotBlank()) {
-            hasCalorieError = false
-        }
+        _calorieInput.value = value
     }
 
     fun toggleCalorieSource(useStored: Boolean) {
-        useStoredCalories = useStored
-    }
-
-    fun validateInputs(): Boolean {
-        var isValid = true
-
-        if (allergies.isBlank()) {
-            hasAllergiesError = true
-            isValid = false
-        }
-
-        if (likesDislikes.isBlank()) {
-            hasLikesDislikesError = true
-            isValid = false
-        }
-
-        if (cuisineType.isBlank()) {
-            hasCuisineTypeError = true
-            isValid = false
-        }
-
-//        if (!useStoredCalories) {
-        if (calorieInput.isBlank() || calorieInput.toIntOrNull() == null || calorieInput.toInt() <= 0) {
-            hasCalorieError = true
-            isValid = false
-        }
-//        } else if (!hasDailyCalories()) {
-//             If using stored calories but none exist
-//            hasCalorieError = true
-//            isValid = false
-//        }
-
-        return isValid
+        _manualCalorieSelection.value = useStored
     }
 
     fun generateMealPlan() {
-        if (!validateInputs()) return
+        _showValidationErrors.value = true
 
-        val dailyCalories =
-//            if (useStoredCalories) {
-//            getDailyCalories()
-//        } else {
-            calorieInput.toIntOrNull() ?: 0
-//        }
+        if (!isInternalFormValid.value) return
 
-        if (dailyCalories <= 0) {
-            hasCalorieError = true
-            return
-        }
+        val calories = dailyCalories.value
+        if (calories <= 0) return
 
         viewModelScope.launch {
             _uiState.value = MealPlanUiState.Loading
             try {
                 val request = MealPlanRequest(
-                    dailyCalories = dailyCalories,
-                    mealsPerDay = mealsPerDay,
-                    allergies = allergies,
-                    likesDislikes = likesDislikes,
-                    dietType = dietType,
-                    activityLevel = activityLevel,
-                    cuisineType = cuisineType,
-                    goal = goal,
+                    dailyCalories = calories,
+                    mealsPerDay = _mealsPerDay.value,
+                    allergies = _allergies.value,
+                    likesDislikes = _likesDislikes.value,
+                    dietType = _dietType.value,
+                    activityLevel = _activityLevel.value,
+                    cuisineType = _cuisineType.value,
+                    goal = _goal.value,
                 )
 
-                val result = geminiRepository.generateMealPlan(request, currentLanguage)
+                val result = geminiRepository.generateMealPlan(request, currentLanguage.value)
                 _uiState.value = MealPlanUiState.Success(result)
             } catch (e: Exception) {
                 _uiState.value = MealPlanUiState.Error(e.message ?: "Unknown error")
@@ -196,5 +217,19 @@ class MealPlanViewModel(
 
     fun resetToInput() {
         _uiState.value = MealPlanUiState.Input
+        _showValidationErrors.value = false
+    }
+
+    fun resetForm() {
+        _mealsPerDay.value = 0
+        _allergies.value = ""
+        _likesDislikes.value = ""
+        _dietType.value = DietType.NONE.value
+        _activityLevel.value = ActivityLevel.MEDIUM.value
+        _goal.value = Goal.MAINTAIN.value
+        _cuisineType.value = ""
+        _calorieInput.value = ""
+        _showValidationErrors.value = false
+        _manualCalorieSelection.value = null
     }
 }
